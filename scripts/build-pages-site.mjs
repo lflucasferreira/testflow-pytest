@@ -6,6 +6,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const siteDir = path.join(root, 'site')
 const docsSrc = path.join(root, 'docs')
 const allureReport = path.join(root, 'allure-report')
+const allureStaging = path.join(root, 'pages-allure-staging')
 const fallbackReport = path.join(docsSrc, 'report')
 
 const NO_REPORT_HTML = `<!DOCTYPE html>
@@ -107,7 +108,10 @@ for (const guide of ['guia-completo.html', 'complete-guide.html']) {
 writeLegacyRedirect(path.join(siteDir, 'slides', 'guia-completo.html'), '../guia-completo.html')
 
 const reportDest = path.join(siteDir, 'report')
-if (fs.existsSync(path.join(allureReport, 'index.html'))) {
+if (fs.existsSync(path.join(allureStaging, 'index.html'))) {
+  copyDir(allureStaging, reportDest)
+  console.log('Using pages-allure-staging/ for site/report/')
+} else if (fs.existsSync(path.join(allureReport, 'index.html'))) {
   copyDir(allureReport, reportDest)
   console.log('Using allure-report/ for site/report/')
 } else if (fs.existsSync(path.join(fallbackReport, 'index.html'))) {

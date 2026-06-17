@@ -31,6 +31,7 @@
     "report:allure": "node scripts/generate-allure-report.mjs",
     "report:allure:open": "npx allure open allure-report",
     "report:allure:serve": "npm run report:allure && npm run report:allure:open",
+    "pages:prepare-allure": "node scripts/prepare-allure-for-pages.mjs",
     "pages:build": "node scripts/build-pages-site.mjs"
   },
   "devDependencies": {

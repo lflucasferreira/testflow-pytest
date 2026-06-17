@@ -74,39 +74,39 @@
 
     <div class="layout">
       <aside class="sidebar" aria-label="Table of contents">
-        <h2>Introdução</h2>
+        <h2>Introduction</h2>
         <ul>
-          <li><a href="#o-que-e">O que é PyTest</a></li>
-          <li><a href="#por-que">Por que PyTest + Playwright</a></li>
-          <li><a href="#pre-requisitos">Pré-requisitos</a></li>
-          <li><a href="#platform-setup">Setup por plataforma</a></li>
-          <li><a href="#instalacao">Instalação</a></li>
-          <li><a href="#credenciais">Credenciais &amp; env</a></li>
-          <li><a href="#estrutura">Estrutura do projeto</a></li>
+          <li><a href="#what-is">What is PyTest</a></li>
+          <li><a href="#why-use">Why PyTest + Playwright</a></li>
+          <li><a href="#prerequisites">Prerequisites</a></li>
+          <li><a href="#platform-setup">Platform setup</a></li>
+          <li><a href="#installation">Installation</a></li>
+          <li><a href="#credentials">Credentials &amp; env</a></li>
+          <li><a href="#structure">Project structure</a></li>
           <li><a href="#config">pytest.ini</a></li>
-          <li><a href="#primeiro-teste">Primeiro teste</a></li>
+          <li><a href="#first-test">First test</a></li>
         </ul>
-        <h2>PyTest para QAs</h2>
+        <h2>PyTest for QAs</h2>
         <ul>
           <li><a href="#assert-introspection">Assert introspection</a></li>
-          <li><a href="#fixtures-scopes">Scopes de fixtures</a></li>
+          <li><a href="#fixtures-scopes">Fixture scopes</a></li>
           <li><a href="#conftest">conftest.py</a></li>
           <li><a href="#markers">Markers</a></li>
           <li><a href="#cli">CLI — flags</a></li>
-          <li><a href="#selecao">Seleção de testes</a></li>
+          <li><a href="#test-selection">Test selection</a></li>
           <li><a href="#parametrize">parametrize</a></li>
           <li><a href="#skip-xfail">skip · xfail</a></li>
           <li><a href="#plugins">Plugins</a></li>
-          <li><a href="#debug">Debug &amp; relatório</a></li>
+          <li><a href="#debug">Debug &amp; reporting</a></li>
         </ul>
         <h2>Playwright (UI)</h2>
         <ul>
-          <li><a href="#locators">Locators &amp; navegação</a></li>
-          <li><a href="#interacoes">Interações</a></li>
+          <li><a href="#locators">Locators &amp; navigation</a></li>
+          <li><a href="#interactions">Interactions</a></li>
           <li><a href="#expect">Assertions expect()</a></li>
           <li><a href="#helpers">Helpers</a></li>
         </ul>
-        <h2>API &amp; padrões</h2>
+        <h2>API &amp; patterns</h2>
         <ul>
           <li><a href="#api-request">api_request</a></li>
           <li><a href="#validate-schema">validate_schema</a></li>
@@ -115,19 +115,19 @@
           <li><a href="#golden">Golden fixtures</a></li>
           <li><a href="#page-route">page.route mock</a></li>
           <li><a href="#visual">Visual regression</a></li>
-          <li><a href="#a11y">Acessibilidade</a></li>
+          <li><a href="#a11y">Accessibility</a></li>
         </ul>
-        <h2>POM &amp; execução</h2>
+        <h2>POM &amp; execution</h2>
         <ul>
           <li><a href="#pom">Page Object Model</a></li>
           <li><a href="#login-page">LoginPage</a></li>
           <li><a href="#dashboard-page">DashboardPage</a></li>
-          <li><a href="#cobertura">Cobertura da suíte</a></li>
-          <li><a href="#executar-pytest">Comandos pytest</a></li>
-          <li><a href="#executar-pw">Opções Playwright</a></li>
+          <li><a href="#coverage">Suite coverage</a></li>
+          <li><a href="#run-pytest">pytest commands</a></li>
+          <li><a href="#run-playwright">Playwright options</a></li>
           <li><a href="#ci">CI GitHub Actions</a></li>
-          <li><a href="#boas-praticas">Boas práticas</a></li>
-          <li><a href="#proximos-passos">Próximos passos</a></li>
+          <li><a href="#best-practices">Best practices</a></li>
+          <li><a href="#next-steps">Next steps</a></li>
         </ul>
       </aside>
 
@@ -145,68 +145,68 @@
           <span class="badge">Python · PyTest · Playwright · POM · testflow-pytest</span>
         </header>
 
-        <section id="o-que-e">
-          <h2>O que é o PyTest?</h2>
+        <section id="what-is">
+          <h2>What is PyTest?</h2>
           <p>
-            O PyTest é um framework de testes para <strong>Python</strong> — descobre testes automaticamente,
-            organiza fixtures reutilizáveis e produz relatórios claros de falha.
+            PyTest is a testing framework for <strong>Python</strong> — it discovers tests automatically,
+            organizes reusable fixtures, and produces clear failure reports.
           </p>
           <ul>
-            <li>Convenção: arquivos <code>test_*.py</code>, classes <code>Test*</code>, funções <code>test_*</code></li>
-            <li><strong>Fixtures</strong> — setup/teardown com injeção de dependência por nome do parâmetro</li>
+            <li>Convention: <code>test_*.py</code> files, <code>Test*</code> classes, <code>test_*</code> functions</li>
+            <li><strong>Fixtures</strong> — setup/teardown with dependency injection by parameter name</li>
             <li><strong>Markers</strong> — <code>@pytest.mark.smoke</code>, <code>regression</code>, <code>api</code>, <code>visual</code>…</li>
-            <li>Ecossistema de plugins: <code>pytest-playwright</code>, <code>pytest-xdist</code>, <code>axe-playwright-python</code></li>
-            <li>Neste projeto: PyTest <strong>orquestra</strong> · Playwright <strong>executa</strong> browser e HTTP</li>
+            <li>Plugin ecosystem: <code>pytest-playwright</code>, <code>pytest-xdist</code>, <code>axe-playwright-python</code></li>
+            <li>In this project: PyTest <strong>orchestrates</strong> · Playwright <strong>runs</strong> browser and HTTP</li>
           </ul>
           <div class="callout">
-            Diferente de unittest, o PyTest não exige herança de classes base — basta funções
-            <code>test_*</code> e <code>assert</code> puro com introspection rica nas falhas.
+            Unlike unittest, PyTest does not require inheriting from base classes — plain
+            <code>test_*</code> functions and native <code>assert</code> with rich failure introspection are enough.
           </div>
         </section>
 
-        <section id="por-que">
-          <h2>Por que PyTest + Playwright?</h2>
+        <section id="why-use">
+          <h2>Why PyTest + Playwright?</h2>
           <div class="feature-grid">
             <div class="feature-card">
-              <h4 class="icon-heading"><img src="slides/assets/icons/python.svg" alt="" class="tool-icon tool-icon--md" aria-hidden="true" /> Python nativo</h4>
-              <p>Ideal para times QA/dev que preferem Python a TypeScript.</p>
+              <h4 class="icon-heading"><img src="slides/assets/icons/python.svg" alt="" class="tool-icon tool-icon--md" aria-hidden="true" /> Native Python</h4>
+              <p>Ideal for QA/dev teams who prefer Python over TypeScript.</p>
             </div>
             <div class="feature-card">
-              <h4 class="icon-heading"><img src="slides/assets/pytest-mark.svg" alt="" class="tool-icon tool-icon--md" aria-hidden="true" /> Fixtures declarativas</h4>
-              <p><code>autouse</code>, <code>scope="session"</code> — auth cache uma vez por run.</p>
+              <h4 class="icon-heading"><img src="slides/assets/pytest-mark.svg" alt="" class="tool-icon tool-icon--md" aria-hidden="true" /> Declarative fixtures</h4>
+              <p><code>autouse</code>, <code>scope="session"</code> — auth cache once per run.</p>
             </div>
             <div class="feature-card">
-              <h4 class="icon-heading"><img src="slides/assets/playwright-logo.svg" alt="" class="tool-icon tool-icon--md" aria-hidden="true" /> E2E + API unificados</h4>
-              <p><code>page</code> para UI e <code>api_request</code> para contratos REST.</p>
+              <h4 class="icon-heading"><img src="slides/assets/playwright-logo.svg" alt="" class="tool-icon tool-icon--md" aria-hidden="true" /> Unified E2E + API</h4>
+              <p><code>page</code> for UI and <code>api_request</code> for REST contracts.</p>
             </div>
             <div class="feature-card">
               <h4 class="icon-heading">
                 <img src="slides/assets/icons/cypress.svg" alt="" class="tool-icon tool-icon--md" aria-hidden="true" />
                 <img src="slides/assets/playwright-logo.svg" alt="" class="tool-icon tool-icon--md" aria-hidden="true" />
-                Espelho TestFlow
+                TestFlow mirror
               </h4>
-              <p>Mesma cobertura de <code>testflow-cypress</code> e <code>testflow-playwright</code>.</p>
+              <p>Same coverage as <code>testflow-cypress</code> and <code>testflow-playwright</code>.</p>
             </div>
           </div>
         </section>
 
-        <section id="pre-requisitos">
-          <h2>Pré-requisitos</h2>
+        <section id="prerequisites">
+          <h2>Prerequisites</h2>
           <div class="two-col">
             <div>
-              <h3>Ambiente</h3>
+              <h3>Environment</h3>
               <ul class="tool-list">
                 <li>
                   <img src="slides/assets/icons/python.svg" alt="" class="tool-icon" width="20" height="20" aria-hidden="true" />
-                  <span><strong>Python</strong> 3.11+ (CI usa 3.12) · <strong>pip</strong> + venv</span>
+                  <span><strong>Python</strong> 3.11+ (CI uses 3.12) · <strong>pip</strong> + venv</span>
                 </li>
                 <li>
                   <img src="slides/assets/icons/docker.svg" alt="" class="tool-icon" width="20" height="20" aria-hidden="true" />
-                  <span><strong>TestFlow</strong> na porta <code>5050</code></span>
+                  <span><strong>TestFlow</strong> on port <code>5050</code></span>
                 </li>
                 <li>
                   <img src="slides/assets/icons/nodedotjs.svg" alt="" class="tool-icon" width="20" height="20" aria-hidden="true" />
-                  <span><strong>Node.js</strong> 18+ — <em>só</em> para servir slides (<code>npm install</code>)</span>
+                  <span><strong>Node.js</strong> 18+ — <em>only</em> for serving slides (<code>npm install</code>)</span>
                 </li>
                 <li>
                   <img src="slides/assets/icons/visualstudiocode.svg" alt="" class="tool-icon" width="20" height="20" aria-hidden="true" />
@@ -225,21 +225,21 @@
                 <div>Python 3.12.x</div>
                 <br />
                 <div><span class="prompt">$</span> docker run -p 5050:5050 qaschool/testflow:latest</div>
-                <div class="comment"># app disponível em localhost:5050</div>
+                <div class="comment"># app available at localhost:5050</div>
               </div>
             </div>
           </div>
         </section>
 
         <section id="platform-setup">
-          <h2>Configuração do ambiente por plataforma</h2>
+          <h2>Platform environment setup</h2>
           <p>
-            Antes de clonar o repositório, instale
+            Before cloning the repository, install
             <span class="tool-inline"><img src="slides/assets/icons/python.svg" alt="" class="tool-icon" width="18" height="18" aria-hidden="true" /><strong>Python 3.11+</strong></span>,
-            <span class="tool-inline"><img src="slides/assets/icons/git.svg" alt="" class="tool-icon" width="18" height="18" aria-hidden="true" /><strong>Git</strong></span>, e
+            <span class="tool-inline"><img src="slides/assets/icons/git.svg" alt="" class="tool-icon" width="18" height="18" aria-hidden="true" /><strong>Git</strong></span>, and
             <span class="tool-inline"><img src="slides/assets/icons/docker.svg" alt="" class="tool-icon" width="18" height="18" aria-hidden="true" /><strong>Docker</strong></span>
-            (para rodar <span class="tool-inline"><img src="slides/assets/icons/testflow.svg" alt="" class="tool-icon" width="18" height="18" aria-hidden="true" />TestFlow</span> na porta <code>5050</code>).
-            Os passos do projeto (<code>pip install</code>, browsers) são os mesmos em todo SO.
+            (to run <span class="tool-inline"><img src="slides/assets/icons/testflow.svg" alt="" class="tool-icon" width="18" height="18" aria-hidden="true" />TestFlow</span> on port <code>5050</code>).
+            Project steps (<code>pip install</code>, browsers) are the same on every OS.
           </p>
 
           <div class="feature-grid platform-grid">
@@ -270,7 +270,7 @@ python --version</code></pre>
                 <span class="tool-chip"><img src="slides/assets/icons/powershell.svg" alt="" class="tool-icon" aria-hidden="true" /> PowerShell</span>
                 <span class="tool-chip"><img src="slides/assets/icons/git.svg" alt="" class="tool-icon" aria-hidden="true" /> Git Bash</span>
               </div>
-              <p>Instaladores: <span class="tool-inline"><img src="slides/assets/icons/python.svg" alt="" class="tool-icon tool-icon--sm" aria-hidden="true" /><a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org</a></span>, <span class="tool-inline"><img src="slides/assets/icons/git.svg" alt="" class="tool-icon tool-icon--sm" aria-hidden="true" /><a href="https://git-scm.com/download/win" target="_blank" rel="noopener">Git for Windows</a></span>, <span class="tool-inline"><img src="slides/assets/icons/docker.svg" alt="" class="tool-icon tool-icon--sm" aria-hidden="true" /><a href="https://docker.com/products/docker-desktop" target="_blank" rel="noopener">Docker Desktop</a></span>.</p>
+              <p>Installers: <span class="tool-inline"><img src="slides/assets/icons/python.svg" alt="" class="tool-icon tool-icon--sm" aria-hidden="true" /><a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org</a></span>, <span class="tool-inline"><img src="slides/assets/icons/git.svg" alt="" class="tool-icon tool-icon--sm" aria-hidden="true" /><a href="https://git-scm.com/download/win" target="_blank" rel="noopener">Git for Windows</a></span>, <span class="tool-inline"><img src="slides/assets/icons/docker.svg" alt="" class="tool-icon tool-icon--sm" aria-hidden="true" /><a href="https://docker.com/products/docker-desktop" target="_blank" rel="noopener">Docker Desktop</a></span>.</p>
             </div>
             <div class="feature-card">
               <h4 class="icon-heading"><img src="slides/assets/icons/linux.svg" alt="" class="tool-icon" aria-hidden="true" /> Linux</h4>
@@ -285,7 +285,7 @@ python3 --version</code></pre>
                 <span class="tool-chip"><img src="slides/assets/playwright-logo.svg" alt="" class="tool-icon" aria-hidden="true" /> install-deps</span>
                 <span class="tool-chip"><img src="slides/assets/icons/docker.svg" alt="" class="tool-icon" aria-hidden="true" /> Docker</span>
               </div>
-              <p>Após <code>pip install</code>: <code>playwright install-deps</code> (libs do browser). Fedora: <code>dnf install python3 git docker</code>.</p>
+              <p>After <code>pip install</code>: <code>playwright install-deps</code> (browser libs). Fedora: <code>dnf install python3 git docker</code>.</p>
             </div>
           </div>
 
@@ -293,12 +293,12 @@ python3 --version</code></pre>
 docker run --rm -p 5050:5050 qaschool/testflow:latest</code></pre>
         </section>
 
-        <section id="instalacao">
-          <h2>Instalação — testflow-pytest</h2>
+        <section id="installation">
+          <h2>Installation — testflow-pytest</h2>
           <ol class="steps">
             <li>
               <div>
-                <strong>Clone o repositório</strong>
+                <strong>Clone the repository</strong>
                 <pre><code class="language-bash">git clone https://github.com/lflucasferreira/testflow-pytest.git
 cd testflow-pytest</code></pre>
                 <div class="install-step-tools">
@@ -309,7 +309,7 @@ cd testflow-pytest</code></pre>
             </li>
             <li>
               <div>
-                <strong>Crie o venv e instale deps Python</strong>
+                <strong>Create venv and install Python deps</strong>
                 <pre><code class="language-bash">python3 -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt</code></pre>
@@ -321,7 +321,7 @@ pip install -r requirements.txt</code></pre>
             </li>
             <li>
               <div>
-                <strong>Instale o browser Chromium</strong>
+                <strong>Install Chromium browser</strong>
                 <pre><code class="language-bash">playwright install chromium</code></pre>
                 <div class="install-step-tools">
                   <span class="tool-chip"><img src="slides/assets/playwright-logo.svg" alt="" class="tool-icon" aria-hidden="true" /> Playwright</span>
@@ -331,7 +331,7 @@ pip install -r requirements.txt</code></pre>
             </li>
             <li>
               <div>
-                <strong>Execute os testes</strong>
+                <strong>Run the tests</strong>
                 <pre><code class="language-bash">pytest
 pytest -m smoke -v</code></pre>
                 <div class="install-step-tools">
@@ -341,35 +341,35 @@ pytest -m smoke -v</code></pre>
             </li>
           </ol>
           <div class="callout">
-            <strong>Proxy corporativo (Zscaler)?</strong> Se <code>playwright install</code> falhar com erro SSL, use
-            <code>export NODE_TLS_REJECT_UNAUTHORIZED=0</code> antes do install, ou configure
-            <code>NODE_EXTRA_CA_CERTS</code> com o root CA corporativo.<br /><br />
+            <strong>Corporate proxy (Zscaler)?</strong> If <code>playwright install</code> fails with an SSL error, use
+            <code>export NODE_TLS_REJECT_UNAUTHORIZED=0</code> before install, or configure
+            <code>NODE_EXTRA_CA_CERTS</code> with the corporate root CA.<br /><br />
             <span class="tool-inline">
               <img src="slides/assets/icons/apple.svg" alt="" class="tool-icon" aria-hidden="true" />
-              Se o browser já estiver em <code>~/Library/Caches/ms-playwright</code> (macOS):
+              If the browser is already in <code>~/Library/Caches/ms-playwright</code> (macOS):
             </span><br />
             <pre><code class="language-bash">export PLAYWRIGHT_BROWSERS_PATH="$HOME/Library/Caches/ms-playwright"</code></pre>
           </div>
         </section>
 
-        <section id="credenciais">
-          <h2>Credenciais &amp; variáveis de ambiente</h2>
+        <section id="credentials">
+          <h2>Credentials &amp; environment variables</h2>
           <table class="compare-table compact">
-            <thead><tr><th>Variável</th><th>Default</th><th>Uso</th></tr></thead>
+            <thead><tr><th>Variable</th><th>Default</th><th>Usage</th></tr></thead>
             <tbody>
-              <tr><td><code>BASE_URL</code></td><td><code>http://localhost:5050</code></td><td>App sob teste</td></tr>
-              <tr><td><code>DEMO_EMAIL</code></td><td><code>demo@automation.io</code></td><td>Login UI/API</td></tr>
-              <tr><td><code>DEMO_PASSWORD</code></td><td><code>Demo123!</code></td><td>Login · secret no CI</td></tr>
+              <tr><td><code>BASE_URL</code></td><td><code>http://localhost:5050</code></td><td>App under test</td></tr>
+              <tr><td><code>DEMO_EMAIL</code></td><td><code>demo@automation.io</code></td><td>UI/API login</td></tr>
+              <tr><td><code>DEMO_PASSWORD</code></td><td><code>Demo123!</code></td><td>Login · secret in CI</td></tr>
               <tr><td><code>SERVICE_CLIENT_ID</code></td><td><code>testflow-service</code></td><td>Rules engine API</td></tr>
               <tr><td><code>SERVICE_CLIENT_SECRET</code></td><td><code>service-secret</code></td><td>Rules engine API</td></tr>
-              <tr><td><code>CI</code></td><td>—</td><td>Definido no GitHub Actions</td></tr>
+              <tr><td><code>CI</code></td><td>—</td><td>Set in GitHub Actions</td></tr>
             </tbody>
           </table>
-          <p>Config central: <code>support/config.py</code> · fixtures demo em <code>fixtures/credentials.json</code></p>
+          <p>Central config: <code>support/config.py</code> · demo fixtures in <code>fixtures/credentials.json</code></p>
         </section>
 
-        <section id="estrutura">
-          <h2>Estrutura do projeto</h2>
+        <section id="structure">
+          <h2>Project structure</h2>
           <div class="two-col">
             <pre><code class="hljs">testflow-pytest/
 ├── conftest.py         # auth cache, api_request, a11y
@@ -389,16 +389,16 @@ pytest -m smoke -v</code></pre>
     ├── api/
     └── visual/</code></pre>
             <ul>
-              <li><code>pages/</code> — locators, ações e assertions por tela</li>
-              <li><code>conftest.py</code> — fixtures globais compartilhadas</li>
-              <li><code>tests/test_*.py</code> — classes <code>Test*</code> por cenário</li>
-              <li><code>data-testid</code> — mesma convenção do Cypress/Playwright</li>
+              <li><code>pages/</code> — locators, actions, and assertions per screen</li>
+              <li><code>conftest.py</code> — shared global fixtures</li>
+              <li><code>tests/test_*.py</code> — <code>Test*</code> classes per scenario</li>
+              <li><code>data-testid</code> — same convention as Cypress/Playwright</li>
             </ul>
           </div>
         </section>
 
         <section id="config">
-          <h2>Configuração — pytest.ini</h2>
+          <h2>Configuration — pytest.ini</h2>
           <pre><code class="language-ini">[pytest]
 testpaths = tests
 python_files = test_*.py
@@ -419,11 +419,11 @@ markers =
     a11y: Accessibility checks (axe-core)
     api: REST / contract tests
     visual: Screenshot regression</code></pre>
-          <p><code>base_url</code> alimenta fixtures do <code>pytest-playwright</code> — use paths relativos em <code>page.goto()</code>.</p>
+          <p><code>base_url</code> feeds <code>pytest-playwright</code> fixtures — use relative paths in <code>page.goto()</code>.</p>
         </section>
 
-        <section id="primeiro-teste">
-          <h2>Seu primeiro teste</h2>
+        <section id="first-test">
+          <h2>Your first test</h2>
           <pre><code class="language-python"># tests/auth/test_login.py
 import pytest
 from playwright.sync_api import Page
@@ -443,12 +443,12 @@ class TestValidCredentials:
         login = LoginPage(page)
         login.login_with(DEMO_EMAIL, DEMO_PASSWORD)
         login.should_redirect_to_dashboard()</code></pre>
-          <p>Convenção: <code>data-testid="login-email"</code> → <code>page.get_by_test_id("login-email")</code></p>
+          <p>Convention: <code>data-testid="login-email"</code> → <code>page.get_by_test_id("login-email")</code></p>
         </section>
 
         <section id="assert-introspection">
           <h2>PyTest — assert introspection</h2>
-          <p>Diferencial #1 para QAs: falhas legíveis sem boilerplate de matchers customizados.</p>
+          <p>Key differentiator for QAs: readable failures without custom matcher boilerplate.</p>
           <pre><code class="language-python">def test_kpi_runs_is_positive(page):
     text = DashboardPage(page).kpi_value("runs").inner_text()
     assert int(text) &gt; 0          # pytest mostra valores reais
@@ -457,21 +457,21 @@ class TestValidCredentials:
 users = [{"role": "admin"}, {"role": "viewer"}]
 assert users[0]["role"] == "viewer" # AssertionError + diff side-by-side</code></pre>
           <ul>
-            <li><code>assert</code> puro — sem API de assertion do framework</li>
-            <li>Relatório mostra <strong>left/right</strong> em dicts, listas e strings</li>
-            <li>Combine com <code>expect()</code> do Playwright para UI com auto-wait</li>
+            <li>Plain <code>assert</code> — no framework assertion API</li>
+            <li>Report shows <strong>left/right</strong> for dicts, lists, and strings</li>
+            <li>Combine with Playwright <code>expect()</code> for UI with auto-wait</li>
           </ul>
         </section>
 
         <section id="fixtures-scopes">
           <h2>Fixtures — scopes</h2>
           <table class="compare-table compact">
-            <thead><tr><th>Scope</th><th>Ciclo de vida</th><th>Uso no testflow-pytest</th></tr></thead>
+            <thead><tr><th>Scope</th><th>Lifecycle</th><th>Usage in testflow-pytest</th></tr></thead>
             <tbody>
-              <tr><td><code>function</code></td><td>1× por <code>test_*</code> (default)</td><td><code>page</code>, <code>api_request</code></td></tr>
-              <tr><td><code>class</code></td><td>1× por classe <code>Test*</code></td><td><code>valid_login_response</code> em API</td></tr>
-              <tr><td><code>module</code></td><td>1× por arquivo <code>test_*.py</code></td><td>Setup pesado compartilhado</td></tr>
-              <tr><td><code>session</code></td><td>1× por <code>pytest</code> run</td><td><code>cache_auth_token</code> autouse</td></tr>
+              <tr><td><code>function</code></td><td>1× per <code>test_*</code> (default)</td><td><code>page</code>, <code>api_request</code></td></tr>
+              <tr><td><code>class</code></td><td>1× per <code>Test*</code> class</td><td><code>valid_login_response</code> in API</td></tr>
+              <tr><td><code>module</code></td><td>1× per <code>test_*.py</code> file</td><td>Shared heavy setup</td></tr>
+              <tr><td><code>session</code></td><td>1× per <code>pytest</code> run</td><td><code>cache_auth_token</code> autouse</td></tr>
             </tbody>
           </table>
           <pre><code class="language-python">@pytest.fixture(scope="session", autouse=True)
@@ -489,7 +489,7 @@ def api_request(playwright) -> APIRequestContext:
         </section>
 
         <section id="conftest">
-          <h2>conftest.py — hierarquia</h2>
+          <h2>conftest.py — hierarchy</h2>
           <div class="two-col">
             <pre><code class="hljs">testflow-pytest/
 ├── conftest.py       # global
@@ -502,17 +502,17 @@ def api_request(playwright) -> APIRequestContext:
     └── dashboard/
         └── test_dashboard.py  # setup_dashboard local</code></pre>
             <ul>
-              <li>Fixtures em <code>conftest.py</code> são descobertas automaticamente</li>
-              <li>Escopo de visibilidade: diretório atual + subpastas</li>
-              <li><code>autouse=True</code> — roda sem declarar no teste</li>
-              <li>Injeção por <strong>nome do parâmetro</strong> — não import manual</li>
-              <li><code>pytest_configure</code> — registra markers customizados</li>
+              <li>Fixtures in <code>conftest.py</code> are discovered automatically</li>
+              <li>Visibility scope: current directory + subfolders</li>
+              <li><code>autouse=True</code> — runs without declaring in the test</li>
+              <li>Injection by <strong>parameter name</strong> — no manual import</li>
+              <li><code>pytest_configure</code> — registers custom markers</li>
             </ul>
           </div>
         </section>
 
         <section id="markers">
-          <h2>Markers — organizar &amp; filtrar</h2>
+          <h2>Markers — organize &amp; filter</h2>
           <pre><code class="language-python">pytestmark = pytest.mark.regression
 
 @pytest.mark.smoke
@@ -526,38 +526,38 @@ pytest -m "smoke or critical"</code></pre>
         </section>
 
         <section id="cli">
-          <h2>CLI — flags do dia a dia</h2>
+          <h2>CLI — everyday flags</h2>
           <table class="compare-table compact">
-            <thead><tr><th>Flag</th><th>O que faz</th></tr></thead>
+            <thead><tr><th>Flag</th><th>What it does</th></tr></thead>
             <tbody>
-              <tr><td><code>-v</code> / <code>-vv</code></td><td>Modo verbose — nomes dos testes e fixtures</td></tr>
-              <tr><td><code>-s</code></td><td>Desliga capture — vê <code>print()</code> e logs</td></tr>
-              <tr><td><code>-q</code></td><td>Quiet — resumo compacto</td></tr>
-              <tr><td><code>-x</code></td><td>Para no primeiro fail (fail-fast local)</td></tr>
-              <tr><td><code>--maxfail=N</code></td><td>Para após N falhas</td></tr>
-              <tr><td><code>--lf</code></td><td>Re-roda só os que falharam na última execução</td></tr>
-              <tr><td><code>--ff</code></td><td>Failed first — falhas primeiro</td></tr>
-              <tr><td><code>--tb=short</code></td><td>Traceback curto (ou <code>long</code>, <code>no</code>)</td></tr>
-              <tr><td><code>-rA</code></td><td>Resumo: passed, failed, skipped, xfailed…</td></tr>
-              <tr><td><code>--collect-only</code></td><td>Lista testes sem executar</td></tr>
-              <tr><td><code>--headed</code></td><td>Browser visível (pytest-playwright)</td></tr>
-              <tr><td><code>-n auto</code></td><td>Paralelo via pytest-xdist</td></tr>
+              <tr><td><code>-v</code> / <code>-vv</code></td><td>Verbose mode — test and fixture names</td></tr>
+              <tr><td><code>-s</code></td><td>Disable capture — see <code>print()</code> and logs</td></tr>
+              <tr><td><code>-q</code></td><td>Quiet — compact summary</td></tr>
+              <tr><td><code>-x</code></td><td>Stop on first failure (local fail-fast)</td></tr>
+              <tr><td><code>--maxfail=N</code></td><td>Stop after N failures</td></tr>
+              <tr><td><code>--lf</code></td><td>Re-run only tests that failed last run</td></tr>
+              <tr><td><code>--ff</code></td><td>Failed first — failures run first</td></tr>
+              <tr><td><code>--tb=short</code></td><td>Short traceback (or <code>long</code>, <code>no</code>)</td></tr>
+              <tr><td><code>-rA</code></td><td>Summary: passed, failed, skipped, xfailed…</td></tr>
+              <tr><td><code>--collect-only</code></td><td>List tests without running</td></tr>
+              <tr><td><code>--headed</code></td><td>Visible browser (pytest-playwright)</td></tr>
+              <tr><td><code>-n auto</code></td><td>Parallel via pytest-xdist</td></tr>
             </tbody>
           </table>
         </section>
 
-        <section id="selecao">
-          <h2>Seleção de testes</h2>
-          <pre><code class="language-bash"># Por pasta / arquivo / classe / método (node id)
+        <section id="test-selection">
+          <h2>Test selection</h2>
+          <pre><code class="language-bash"># By folder / file / class / method (node id)
 pytest tests/dashboard/test_dashboard.py -v
 pytest tests/dashboard/test_dashboard.py::TestKpiCards -v
 pytest tests/dashboard/test_dashboard.py::TestKpiCards::test_renders_all_four_kpi_cards
 
-# Por expressão no nome (-k)
+# By name expression (-k)
 pytest -k "login and not api"
 pytest -k "kpi or greeting"
 
-# Por marker + pasta
+# By marker + folder
 pytest tests/api -m regression -v</code></pre>
         </section>
 
@@ -574,7 +574,7 @@ class TestQuickAccessNavigation:
 @pytest.mark.parametrize("case", VALID_PATCH_CASES, ids=lambda c: c["label"])
 class TestValidPatchOperations:
     def test_patch_succeeds(self, api_request, auth_token, case): ...</code></pre>
-          <p><code>ids=</code> evita nomes genéricos <code>[case0]</code> no relatório CI.</p>
+          <p><code>ids=</code> avoids generic names like <code>[case0]</code> in CI reports.</p>
         </section>
 
         <section id="skip-xfail">
@@ -594,23 +594,23 @@ def test_invalid_payload(api_request):
         </section>
 
         <section id="plugins">
-          <h2>Plugins usados na suíte</h2>
+          <h2>Plugins used in the suite</h2>
           <table class="compare-table compact">
-            <thead><tr><th>Plugin</th><th>Para quê</th></tr></thead>
+            <thead><tr><th>Plugin</th><th>Purpose</th></tr></thead>
             <tbody>
               <tr><td><code>pytest-playwright</code></td><td>Fixtures <code>page</code>, <code>context</code>, <code>browser</code></td></tr>
-              <tr><td><code>pytest-xdist</code></td><td><code>pytest -n auto</code> — paralelismo</td></tr>
-              <tr><td><code>jsonschema</code></td><td><code>validate_schema()</code> — contrato REST</td></tr>
+              <tr><td><code>pytest-xdist</code></td><td><code>pytest -n auto</code> — parallelism</td></tr>
+              <tr><td><code>jsonschema</code></td><td><code>validate_schema()</code> — REST contract</td></tr>
               <tr><td><code>axe-playwright-python</code></td><td><code>check_a11y(page)</code> — WCAG</td></tr>
-              <tr><td><code>faker</code></td><td>Dados dinâmicos em <code>support/factories/</code></td></tr>
-              <tr><td><code>allure-pytest</code></td><td>Relatório HTML Allure 3 — <code>allure-results/</code></td></tr>
-              <tr><td><code>python-dotenv</code></td><td>Variáveis de ambiente</td></tr>
+              <tr><td><code>faker</code></td><td>Dynamic data in <code>support/factories/</code></td></tr>
+              <tr><td><code>allure-pytest</code></td><td>Allure 3 HTML report — <code>allure-results/</code></td></tr>
+              <tr><td><code>python-dotenv</code></td><td>Environment variables</td></tr>
             </tbody>
           </table>
         </section>
 
         <section id="debug">
-          <h2>Debug &amp; relatório de falha</h2>
+          <h2>Debug &amp; failure reporting</h2>
           <div class="two-col">
             <pre><code class="language-bash">pytest tests/auth --headed -s
 pytest --tracing retain-on-failure
@@ -623,49 +623,49 @@ npm install
 pytest -m smoke
 npm run report:allure:open</code></pre>
             <ul>
-              <li><code>-ra</code> no <code>pytest.ini</code> — short test summary</li>
-              <li><code>--alluredir=allure-results</code> — resultados para Allure 3</li>
-              <li><code>--screenshot only-on-failure</code> — evidência visual</li>
-              <li>Traces em <code>test-results/</code> · anexados no Allure em falha</li>
-              <li>IDs <code>[TC-xxxx]</code> — label <code>testCase</code> no Allure</li>
-              <li>CI publica artifact <code>allure-report</code> (GitHub Actions)</li>
+              <li><code>-ra</code> in <code>pytest.ini</code> — short test summary</li>
+              <li><code>--alluredir=allure-results</code> — results for Allure 3</li>
+              <li><code>--screenshot only-on-failure</code> — visual evidence</li>
+              <li>Traces in <code>test-results/</code> · attached to Allure on failure</li>
+              <li><code>[TC-xxxx]</code> IDs — <code>testCase</code> label in Allure</li>
+              <li>CI publishes <code>allure-report</code> artifact (GitHub Actions)</li>
             </ul>
           </div>
         </section>
 
         <section id="locators">
-          <h2>Locators &amp; navegação (Playwright)</h2>
+          <h2>Locators &amp; navigation (Playwright)</h2>
           <table class="compare-table compact">
-            <thead><tr><th>API</th><th>Uso no TestFlow</th></tr></thead>
+            <thead><tr><th>API</th><th>Usage in TestFlow</th></tr></thead>
             <tbody>
-              <tr><td><code>page.goto(path)</code></td><td>Abrir login, dashboard, team…</td></tr>
+              <tr><td><code>page.goto(path)</code></td><td>Open login, dashboard, team…</td></tr>
               <tr><td><code>page.get_by_test_id(id)</code></td><td><code>login-email</code>, <code>page-dashboard</code></td></tr>
-              <tr><td><code>page.get_by_role(...)</code></td><td>Botões e links acessíveis</td></tr>
-              <tr><td><code>page.get_by_text(...)</code></td><td>Labels, mensagens de erro</td></tr>
-              <tr><td><code>locator.locator(...)</code></td><td><code>.activity-text</code>, células</td></tr>
-              <tr><td><code>locator.nth(i)</code></td><td>Linha n da tabela</td></tr>
-              <tr><td><code>page.expect_request(...)</code></td><td>Spy POST login com toggle API</td></tr>
-              <tr><td><code>page.route(...)</code></td><td>Mock de API na activity page</td></tr>
-              <tr><td><code>page.evaluate(...)</code></td><td>Ler <code>sessionStorage</code></td></tr>
-              <tr><td><code>page.add_init_script(...)</code></td><td>Injetar token antes do goto</td></tr>
-              <tr><td><code>page.go_back()</code></td><td>Voltar após quick access nav</td></tr>
+              <tr><td><code>page.get_by_role(...)</code></td><td>Accessible buttons and links</td></tr>
+              <tr><td><code>page.get_by_text(...)</code></td><td>Labels, error messages</td></tr>
+              <tr><td><code>locator.locator(...)</code></td><td><code>.activity-text</code>, cells</td></tr>
+              <tr><td><code>locator.nth(i)</code></td><td>Table row n</td></tr>
+              <tr><td><code>page.expect_request(...)</code></td><td>Spy POST login with API toggle</td></tr>
+              <tr><td><code>page.route(...)</code></td><td>API mock on activity page</td></tr>
+              <tr><td><code>page.evaluate(...)</code></td><td>Read <code>sessionStorage</code></td></tr>
+              <tr><td><code>page.add_init_script(...)</code></td><td>Inject token before goto</td></tr>
+              <tr><td><code>page.go_back()</code></td><td>Go back after quick access nav</td></tr>
             </tbody>
           </table>
         </section>
 
-        <section id="interacoes">
-          <h2>Interações</h2>
+        <section id="interactions">
+          <h2>Interactions</h2>
           <table class="compare-table compact">
-            <thead><tr><th>Ação</th><th>Exemplo TestFlow</th></tr></thead>
+            <thead><tr><th>Action</th><th>TestFlow example</th></tr></thead>
             <tbody>
-              <tr><td><code>.fill(text)</code></td><td>Email, senha, busca na tabela</td></tr>
-              <tr><td><code>.clear()</code></td><td>Limpar campo antes de novo valor</td></tr>
-              <tr><td><code>.click()</code></td><td>Submit, sidebar, paginação, modais</td></tr>
+              <tr><td><code>.fill(text)</code></td><td>Email, password, table search</td></tr>
+              <tr><td><code>.clear()</code></td><td>Clear field before new value</td></tr>
+              <tr><td><code>.click()</code></td><td>Submit, sidebar, pagination, modals</td></tr>
               <tr><td><code>.select_option(value)</code></td><td>Run suite/env, role filter</td></tr>
               <tr><td><code>.check() / .uncheck()</code></td><td>Remember me, API toggle</td></tr>
-              <tr><td><code>page.keyboard.press("Escape")</code></td><td>Fechar modal</td></tr>
-              <tr><td><code>.inner_text()</code></td><td>Valor numérico de KPI</td></tr>
-              <tr><td><code>.click(force=True)</code></td><td>Overlay do modal</td></tr>
+              <tr><td><code>page.keyboard.press("Escape")</code></td><td>Close modal</td></tr>
+              <tr><td><code>.inner_text()</code></td><td>KPI numeric value</td></tr>
+              <tr><td><code>.click(force=True)</code></td><td>Modal overlay</td></tr>
             </tbody>
           </table>
         </section>
@@ -673,38 +673,38 @@ npm run report:allure:open</code></pre>
         <section id="expect">
           <h2>Assertions — expect()</h2>
           <table class="compare-table compact">
-            <thead><tr><th>Assertion</th><th>Exemplo</th></tr></thead>
+            <thead><tr><th>Assertion</th><th>Example</th></tr></thead>
             <tbody>
-              <tr><td><code>expect(...).to_be_visible()</code></td><td>Page root, modais, KPIs</td></tr>
-              <tr><td><code>expect(...).not_to_be_visible()</code></td><td>Modal fechado</td></tr>
-              <tr><td><code>expect(page).to_have_url(...)</code></td><td>Redirect pós-login</td></tr>
-              <tr><td><code>expect(...).to_contain_text(...)</code></td><td>Greeting, toast, erros</td></tr>
+              <tr><td><code>expect(...).to_be_visible()</code></td><td>Page root, modals, KPIs</td></tr>
+              <tr><td><code>expect(...).not_to_be_visible()</code></td><td>Modal closed</td></tr>
+              <tr><td><code>expect(page).to_have_url(...)</code></td><td>Post-login redirect</td></tr>
+              <tr><td><code>expect(...).to_contain_text(...)</code></td><td>Greeting, toast, errors</td></tr>
               <tr><td><code>expect(...).to_have_attribute(...)</code></td><td>type=password, health bar</td></tr>
-              <tr><td><code>expect(...).to_have_count(n)</code></td><td>Activity items, linhas</td></tr>
+              <tr><td><code>expect(...).to_have_count(n)</code></td><td>Activity items, rows</td></tr>
               <tr><td><code>expect(...).to_have_text(re.compile(...))</code></td><td>Pass rate <code>^\d+(\.\d+)?%$</code></td></tr>
-              <tr><td><code>assert response.status == 200</code></td><td>Contratos API REST</td></tr>
+              <tr><td><code>assert response.status == 200</code></td><td>REST API contracts</td></tr>
             </tbody>
           </table>
-          <p>Playwright <strong>aguarda automaticamente</strong> — <code>expect()</code> faz retry até timeout.</p>
+          <p>Playwright <strong>waits automatically</strong> — <code>expect()</code> retries until timeout.</p>
         </section>
 
         <section id="helpers">
-          <h2>Helpers compartilhados</h2>
+          <h2>Shared helpers</h2>
           <table class="compare-table compact">
             <tbody>
               <tr class="group-row"><td colspan="2">support/auth.py</td></tr>
-              <tr><td><code>login_via_api(page, api_request)</code></td><td>Auth programática + goto dashboard</td></tr>
-              <tr><td><code>visit_authenticated(page, api_request, path)</code></td><td>Navegar já autenticado</td></tr>
-              <tr><td><code>visit_with_token(page, path, token)</code></td><td>Smoke com token em cache</td></tr>
-              <tr><td><code>login_via_ui(page)</code></td><td>Auth via formulário</td></tr>
-              <tr><td><code>get_auth_token(api_request)</code></td><td>Token (cache ou fetch)</td></tr>
+              <tr><td><code>login_via_api(page, api_request)</code></td><td>Programmatic auth + goto dashboard</td></tr>
+              <tr><td><code>visit_authenticated(page, api_request, path)</code></td><td>Navigate already authenticated</td></tr>
+              <tr><td><code>visit_with_token(page, path, token)</code></td><td>Smoke with cached token</td></tr>
+              <tr><td><code>login_via_ui(page)</code></td><td>Auth via form</td></tr>
+              <tr><td><code>get_auth_token(api_request)</code></td><td>Token (cache or fetch)</td></tr>
               <tr class="group-row"><td colspan="2">support/helpers/</td></tr>
-              <tr><td><code>read_fixture(name)</code></td><td>Carregar JSON de <code>fixtures/</code></td></tr>
-              <tr><td><code>validate_schema(obj, schema)</code></td><td>Contrato REST com jsonschema</td></tr>
+              <tr><td><code>read_fixture(name)</code></td><td>Load JSON from <code>fixtures/</code></td></tr>
+              <tr><td><code>validate_schema(obj, schema)</code></td><td>REST contract with jsonschema</td></tr>
               <tr><td><code>expect_same_members(exp, act)</code></td><td>Golden roles</td></tr>
               <tr class="group-row"><td colspan="2">conftest.py</td></tr>
               <tr><td><code>check_a11y(page)</code></td><td>axe-core — WCAG 2a/2aa</td></tr>
-              <tr><td><code>api_request</code></td><td>HTTP client Playwright por teste</td></tr>
+              <tr><td><code>api_request</code></td><td>Playwright HTTP client per test</td></tr>
             </tbody>
           </table>
         </section>
@@ -719,12 +719,12 @@ npm run report:allure:open</code></pre>
     assert response.status == 200
     body = response.json()
     validate_schema(body, read_fixture("schemas/users-list.json"))</code></pre>
-          <p>Marker: <code>@pytest.mark.api</code> · diretório: <code>tests/api/</code></p>
+          <p>Marker: <code>@pytest.mark.api</code> · directory: <code>tests/api/</code></p>
         </section>
 
         <section id="validate-schema">
-          <h2>validate_schema — contrato REST</h2>
-          <p>Schemas em <code>fixtures/schemas/</code> — auth-login, user, users-list…</p>
+          <h2>validate_schema — REST contract</h2>
+          <p>Schemas in <code>fixtures/schemas/</code> — auth-login, user, users-list…</p>
           <pre><code class="language-python">from support.helpers.fixtures import read_fixture
 from jsonschema import validate
 
@@ -734,7 +734,7 @@ def validate_schema(instance, schema_path):
         </section>
 
         <section id="expect-http">
-          <h2>EXPECT — status codes tipados</h2>
+          <h2>EXPECT — typed status codes</h2>
           <pre><code class="language-python"># support/constants/http_status.py
 @dataclass(frozen=True)
 class HttpStatus:
@@ -758,9 +758,9 @@ execute_successful_patch_flow(
     expected_field="role",
 )</code></pre>
           <ul>
-            <li><code>patch_user_via_rules()</code> — PATCH com <code>application/json-patch+json</code></li>
-            <li><code>poll_get_users_field()</code> — eventual consistency pós-PATCH</li>
-            <li>Payloads em <code>fixtures/api/patch-payloads.json</code></li>
+            <li><code>patch_user_via_rules()</code> — PATCH with <code>application/json-patch+json</code></li>
+            <li><code>poll_get_users_field()</code> — eventual consistency after PATCH</li>
+            <li>Payloads in <code>fixtures/api/patch-payloads.json</code></li>
           </ul>
         </section>
 
@@ -774,7 +774,7 @@ expect_same_members(golden["roles"], actual_roles)</code></pre>
         </section>
 
         <section id="page-route">
-          <h2>page.route — mock na UI</h2>
+          <h2>page.route — UI mock</h2>
           <pre><code class="language-python">page.route("**/api/activity**", lambda route: route.fulfill(
     status=200,
     content_type="application/json",
@@ -792,7 +792,7 @@ pytest tests/visual --update-snapshots</code></pre>
         </section>
 
         <section id="a11y">
-          <h2>Acessibilidade — check_a11y</h2>
+          <h2>Accessibility — check_a11y</h2>
           <pre><code class="language-python">from conftest import check_a11y
 
 def test_login_page_has_no_critical_a11y_issues(page: Page):
@@ -803,15 +803,15 @@ def test_login_page_has_no_critical_a11y_issues(page: Page):
 
         <section id="pom">
           <h2>Page Object Model (POM)</h2>
-          <p>Specs finos · Page Objects encapsulam o DOM · retorno <code>Self</code> para method chaining.</p>
+          <p>Thin specs · Page Objects encapsulate the DOM · <code>Self</code> return for method chaining.</p>
           <ul>
-            <li><strong>Test spec</strong> — cenário de negócio, Given/When/Then, fixtures</li>
-            <li><strong>Page Object</strong> — locators, ações, assertions</li>
+            <li><strong>Test spec</strong> — business scenario, Given/When/Then, fixtures</li>
+            <li><strong>Page Object</strong> — locators, actions, assertions</li>
           </ul>
         </section>
 
         <section id="login-page">
-          <h2>Anatomia — LoginPage</h2>
+          <h2>Anatomy — LoginPage</h2>
           <pre><code class="language-python">class LoginPage:
     def email_input(self) -> Locator:
         return self.page.get_by_test_id("login-email")
@@ -846,18 +846,18 @@ def test_login_page_has_no_critical_a11y_issues(page: Page):
         return self</code></pre>
         </section>
 
-        <section id="cobertura">
-          <h2>Cobertura da suíte</h2>
+        <section id="coverage">
+          <h2>Suite coverage</h2>
           <table class="compare-table compact">
-            <thead><tr><th>Suite</th><th>Arquivo</th><th>O que cobre</th></tr></thead>
+            <thead><tr><th>Suite</th><th>File</th><th>What it covers</th></tr></thead>
             <tbody>
-              <tr><td><code>smoke</code></td><td>test_navigation.py</td><td>Páginas, sidebar, health API, logout</td></tr>
+              <tr><td><code>smoke</code></td><td>test_navigation.py</td><td>Pages, sidebar, health API, logout</td></tr>
               <tr><td><code>auth</code></td><td>test_login.py</td><td>Login UI/API, sessionStorage, a11y</td></tr>
-              <tr><td><code>dashboard</code></td><td>test_dashboard.py</td><td>KPIs, activity, modal new run</td></tr>
-              <tr><td><code>team</code></td><td>test_team.py</td><td>Busca, filtros, paginação, invite</td></tr>
+              <tr><td><code>dashboard</code></td><td>test_dashboard.py</td><td>KPIs, activity, new run modal</td></tr>
+              <tr><td><code>team</code></td><td>test_team.py</td><td>Search, filters, pagination, invite</td></tr>
               <tr><td><code>settings</code></td><td>test_settings.py</td><td>Form, toggles, password, webhooks</td></tr>
               <tr><td><code>components</code></td><td>test_components.py</td><td>Buttons, modal, tabs, accordion</td></tr>
-              <tr><td><code>wizard</code></td><td>test_wizard.py</td><td>Multi-step, validação, review</td></tr>
+              <tr><td><code>wizard</code></td><td>test_wizard.py</td><td>Multi-step, validation, review</td></tr>
               <tr><td><code>activity</code></td><td>test_activity.py</td><td>API mocks, counter, pipeline</td></tr>
               <tr><td><code>advanced</code></td><td>test_advanced.py</td><td>Shadow DOM, iframe, mobile</td></tr>
               <tr><td><code>states</code></td><td>test_states.py</td><td>Skeleton, empty, error states</td></tr>
@@ -865,15 +865,15 @@ def test_login_page_has_no_critical_a11y_issues(page: Page):
               <tr><td><code>api</code></td><td>test_*_api.py</td><td>Auth, users, rules/PATCH engine</td></tr>
             </tbody>
           </table>
-          <p><strong>220 testes</strong> · markers smoke/regression/api/visual/a11y/critical</p>
+          <p><strong>220 tests</strong> · markers smoke/regression/api/visual/a11y/critical</p>
         </section>
 
-        <section id="executar-pytest">
-          <h2>Como executar — pytest</h2>
-          <pre><code class="language-bash"># Suíte completa
+        <section id="run-pytest">
+          <h2>How to run — pytest</h2>
+          <pre><code class="language-bash"># Full suite
 pytest
 
-# Por marker
+# By marker
 pytest -m smoke
 pytest -m regression
 pytest -m critical
@@ -881,7 +881,7 @@ pytest -m a11y
 pytest -m api
 pytest -m visual
 
-# Por diretório / suite
+# By directory / suite
 pytest tests/smoke
 pytest tests/auth
 pytest tests/dashboard
@@ -901,8 +901,8 @@ pytest tests/dashboard/test_dashboard.py::TestKpiCards -v
 pytest tests/dashboard/test_dashboard.py::TestKpiCards::test_renders_all_four_kpi_cards -v</code></pre>
         </section>
 
-        <section id="executar-pw">
-          <h2>Como executar — opções Playwright</h2>
+        <section id="run-playwright">
+          <h2>How to run — Playwright options</h2>
           <div class="feature-grid">
             <div class="feature-card">
               <h4 class="icon-heading">
@@ -929,7 +929,7 @@ pytest --screenshot only-on-failure</code></pre>
         <section id="ci">
           <h2 class="icon-heading"><img src="slides/assets/icons/githubactions.svg" alt="" class="tool-icon tool-icon--md" aria-hidden="true" /> CI — GitHub Actions</h2>
           <ul>
-            <li>Matrix by browser: <code>chromium</code> (full suite), <code>firefox</code> and <code>webkit</code> (smoke)</li>
+            <li>Browser matrix: <code>chromium</code> (full suite), <code>firefox</code> and <code>webkit</code> (smoke)</li>
             <li>Cache <code>.venv</code> + <code>~/.cache/ms-playwright</code> per browser</li>
             <li>
               <span class="tool-inline">
@@ -937,7 +937,7 @@ pytest --screenshot only-on-failure</code></pre>
                 Service container: <code>qaschool/testflow:latest</code> on port 5050
               </span>
             </li>
-            <li>Pages in 2 phases: <code>publish-docs</code> (guides/slides first) → <code>publish-report</code> (Allure after tests)</li>
+            <li>GitHub Pages in two phases: <code>publish-pages</code> (guides/slides first) → <code>publish-allure</code> (Allure after tests)</li>
             <li>Artifacts: <code>test-results/</code> on failure</li>
           </ul>
           <pre><code class="language-bash">npm run test:ci:chromium
@@ -948,53 +948,46 @@ npm run pages:build</code></pre>
           <p>Workflow: <code>.github/workflows/pytest.yml</code></p>
         </section>
 
-        <section id="boas-praticas">
-          <h2>Boas práticas</h2>
+        <section id="best-practices">
+          <h2>Best practices</h2>
           <ul>
-            <li><strong>Page Objects</strong> em <code>pages/</code> — locators, ações e assertions isolados</li>
-            <li><code>get_by_test_id</code> + <code>data-testid</code> — mesma convenção Cypress/Playwright</li>
-            <li><code>login_via_api</code> em fixture <code>autouse</code> — specs sem repetir login UI</li>
-            <li><code>scope="class"</code> — resposta API compartilhada sem N requests idênticos</li>
-            <li><code>validate_schema</code> — contrato REST declarativo com jsonschema</li>
-            <li><code>page.route</code> + <code>expect_request</code> — mock e spy de API na UI</li>
-            <li>Fixtures JSON — dados determinísticos (<code>credentials</code>, <code>team-member</code>)</li>
-            <li>Um cenário por <code>test_*</code> — falhas fáceis de diagnosticar</li>
-            <li><code>pytestmark</code> + markers — filtrar smoke/regression/api no CI</li>
-            <li><code>cache_auth_token</code> session autouse — token uma vez por run</li>
-            <li><code>[TC-xxxx]</code> — IDs rastreáveis alinhados ao TestFlow</li>
+            <li><strong>Page Objects</strong> in <code>pages/</code> — isolated locators, actions, and assertions</li>
+            <li><code>get_by_test_id</code> + <code>data-testid</code> — same Cypress/Playwright convention</li>
+            <li><code>login_via_api</code> in <code>autouse</code> fixture — specs without repeating UI login</li>
+            <li><code>scope="class"</code> — shared API response without N identical requests</li>
+            <li><code>validate_schema</code> — declarative REST contract with jsonschema</li>
+            <li><code>page.route</code> + <code>expect_request</code> — API mock and spy in UI tests</li>
+            <li>JSON fixtures — deterministic data (<code>credentials</code>, <code>team-member</code>)</li>
+            <li>One scenario per <code>test_*</code> — easy-to-diagnose failures</li>
+            <li><code>pytestmark</code> + markers — filter smoke/regression/api in CI</li>
+            <li><code>cache_auth_token</code> session autouse — token once per run</li>
+            <li><code>[TC-xxxx]</code> — traceable IDs aligned with TestFlow</li>
           </ul>
         </section>
 
-        <section id="proximos-passos">
-          <h2>Próximos passos</h2>
+        <section id="next-steps">
+          <h2>Next steps</h2>
           <div class="feature-grid">
             <a class="feature-card" href="slides/index.html" style="text-decoration:none;color:inherit;">
               <h4 class="icon-heading">
                 <img src="slides/assets/pytest-mark.svg" alt="" class="tool-icon" aria-hidden="true" />
-                Slides interativos
+                Interactive slides
               </h4>
-              <p>Apresentação Reveal.js com animações e navegação por teclado.</p>
-            </a>
-            <a class="feature-card" href="pt/README.md" style="text-decoration:none;color:inherit;">
-              <h4 class="icon-heading">
-                <img src="slides/assets/icons/markdown.svg" alt="" class="tool-icon" aria-hidden="true" />
-                Docs de treinamento
-              </h4>
-              <p>Walkthrough bloco a bloco de cada spec do TestFlow PyTest.</p>
+              <p>Reveal.js presentation with animations and keyboard navigation.</p>
             </a>
             <a class="feature-card" href="https://docs.pytest.org" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">
               <h4 class="icon-heading">
                 <img src="slides/assets/pytest-mark.svg" alt="" class="tool-icon" aria-hidden="true" />
-                Documentação PyTest
+                PyTest docs
               </h4>
-              <p>docs.pytest.org — referência completa da API.</p>
+              <p>docs.pytest.org — complete API reference.</p>
             </a>
             <a class="feature-card" href="https://playwright.dev/python/docs/intro" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">
               <h4 class="icon-heading">
                 <img src="slides/assets/playwright-logo.svg" alt="" class="tool-icon" aria-hidden="true" />
                 Playwright Python
               </h4>
-              <p>playwright.dev/python — E2E e API no browser.</p>
+              <p>playwright.dev/python — E2E and API in the browser.</p>
             </a>
           </div>
         </section>
