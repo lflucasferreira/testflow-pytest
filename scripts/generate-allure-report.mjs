@@ -8,8 +8,8 @@ const resultsDir = path.join(root, 'allure-results')
 const reportDir = path.join(root, 'allure-report')
 
 if (!fs.existsSync(resultsDir) || fs.readdirSync(resultsDir).length === 0) {
-  console.error('No allure-results found. Run tests first: pytest')
-  process.exit(1)
+  console.warn('No allure-results found — skipping report generation (docs site will use placeholder).')
+  process.exit(0)
 }
 
 fs.rmSync(reportDir, { recursive: true, force: true })

@@ -127,6 +127,30 @@ a:hover {
   color: var(--pt-blue);
 }
 
+.header-links a.nav-github {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.header-links a.nav-github:hover {
+  text-decoration: none;
+}
+
+.header-links a.nav-github img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+[data-theme='dark'] .header-links a.nav-github img {
+  filter: brightness(0) invert(1);
+}
+
+[data-theme='light'] .header-links a.nav-github img {
+  filter: none;
+}
+
 .layout {
   display: grid;
   grid-template-columns: var(--sidebar-width) 1fr;

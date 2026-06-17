@@ -7,7 +7,8 @@ Apresentação Reveal.js sobre PyTest + Playwright (E2E, API, POM, markers e com
 | Arquivo | Descrição |
 |---------|-----------|
 | `index.html` | Apresentação interativa (Reveal.js) |
-| `guia-completo.html` | **Guia passo a passo** — instalação, PyTest, Playwright e todos os comandos |
+| `../guia-completo.html` | **Guia passo a passo (PT)** — instalação, PyTest, Playwright e todos os comandos |
+| `../complete-guide.html` | **Complete guide (EN)** — same content, English navigation |
 | `pytest-intro-slides.pdf` | Versão PDF (gerada via decktape) |
 | `css/theme-pytest.css` | Tema visual PyTest (slides) |
 | `css/guide.css` | Tema visual PyTest (guia HTML) |
@@ -28,7 +29,8 @@ npm install
 npm install
 npm run slides
 # http://localhost:3336/docs/slides/
-# Guia passo a passo: http://localhost:3336/docs/slides/guia-completo.html
+# Guia passo a passo: http://localhost:3336/docs/guia-completo.html
+# Complete guide (EN): http://localhost:3336/docs/complete-guide.html
 ```
 
 Atalho (macOS):

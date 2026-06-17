@@ -592,7 +592,7 @@
 - [pytest-playwright plugin](https://pytest-playwright.readthedocs.io/)
 - [JSON Schema validation](https://python-jsonschema.readthedocs.io/)
 - Slides do projeto: `docs/slides/index.html`
-- Guia completo: `docs/slides/guia-completo.html`
+- Guia completo: `docs/guia-completo.html` (PT) · `docs/complete-guide.html` (EN)
 - Walkthroughs: `docs/pt/README.md` · `docs/en/README.md`
 
 ---

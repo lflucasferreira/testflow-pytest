@@ -138,16 +138,21 @@ testflow-pytest/
 
 ## CI
 
-GitHub Actions workflow runs each suite in parallel against the `qaschool/testflow:latest` Docker service.
+GitHub Actions runs **3 parallel jobs** by browser against the `qaschool/testflow:latest` Docker service — same model as `testflow-playwright`:
 
-Matrix mirrors `testflow-playwright`: per-suite jobs, multi-browser smoke (`chromium` / `firefox` / `webkit`), `@smoke` marker job, Allure results merged on push to `main`, and GitHub Pages deploy (`/report/`).
+| Browser | Scope |
+|---------|--------|
+| `chromium` | Full suite (API + E2E + a11y + visual) |
+| `firefox` | Smoke only |
+| `webkit` | Smoke only |
+
+Allure results merge on push to `main`; GitHub Pages deploys landing, slides, and report (`/report/`).
 
 ```bash
-# Same suites as CI (venv active)
-npm run test:smoke
-npm run test:smoke-firefox
-npm run test:a11y
-npm run test:grep:smoke
+# Same commands as CI (venv active)
+npm run test:ci:chromium
+npm run test:ci:firefox
+npm run test:ci:webkit
 ```
 
 Published site: `https://lflucasferreira.github.io/testflow-pytest/` (landing + slides + Allure report).
@@ -155,7 +160,8 @@ Published site: `https://lflucasferreira.github.io/testflow-pytest/` (landing + 
 ## Slides & training docs
 
 - **Slides (Reveal.js):** `npm install && npm run slides` → http://localhost:3336/docs/slides/
-- **Guia passo a passo (HTML):** http://localhost:3336/docs/slides/guia-completo.html
+- **Guia passo a passo (HTML):** http://localhost:3336/docs/guia-completo.html
+- **Complete guide (EN):** http://localhost:3336/docs/complete-guide.html
 - **Português:** [`docs/pt/README.md`](docs/pt/README.md) — walkthrough bloco a bloco de cada arquivo de teste
 - **English:** [`docs/en/README.md`](docs/en/README.md) — same training material in English
 - **Entrevistas técnicas:** [`docs/pytest-technical-interview-questions.md`](docs/pytest-technical-interview-questions.md) — 320+ perguntas `[SLIDE]` / `[EXTRA]`

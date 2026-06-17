@@ -1096,8 +1096,8 @@ pytest --screenshot only-on-failure</code></pre>
           </h2>
           <div class="feature-grid fragment fade-up" style="font-size: 0.62em;">
             <div class="feature-card">
-              <h4>Matrix paralela</h4>
-              <p>12 suites + job <code>@smoke</code> — smoke, auth, dashboard… visual, api</p>
+              <h4>Matrix por browser</h4>
+              <p><code>chromium</code> suíte completa · <code>firefox</code> / <code>webkit</code> smoke</p>
             </div>
             <div class="feature-card">
               <h4 class="icon-heading">
@@ -1114,12 +1114,13 @@ pytest --screenshot only-on-failure</code></pre>
               <p>Traces Playwright em <code>test-results/</code> em falha</p>
             </div>
             <div class="feature-card">
-              <h4>Cache venv</h4>
-              <p>Job <code>setup</code> instala deps uma vez · matrix reutiliza</p>
+              <h4>Cache</h4>
+              <p><code>.venv</code> + <code>ms-playwright</code> por browser na matrix</p>
             </div>
           </div>
-          <pre class="fragment fade-up" style="font-size: 0.52em; margin-top: 0.8em;"><code class="language-bash">pytest tests/${{ matrix.suite }} --tracing retain-on-failure
-pytest -m smoke</code></pre>
+          <pre class="fragment fade-up" style="font-size: 0.52em; margin-top: 0.8em;"><code class="language-bash">npm run test:ci:chromium   # suíte completa
+npm run test:ci:firefox    # smoke
+npm run test:ci:webkit     # smoke</code></pre>
           <p class="fragment fade-up" style="font-size: 0.58em; color: var(--pt-muted); margin-top: 0.6em;">
             Workflow: <code>.github/workflows/pytest.yml</code>
           </p>
@@ -1183,7 +1184,7 @@ pytest -m smoke</code></pre>
           <h2>Próximos passos</h2>
           <p>Você já sabe instalar, configurar e escrever testes E2E e API com PyTest + Playwright no TestFlow.</p>
           <div class="links">
-            <a class="link-card fragment fade-up" href="guia-completo.html">
+            <a class="link-card fragment fade-up" href="../guia-completo.html">
               <strong class="icon-heading">
                 <img src="assets/icons/html5.svg" alt="" class="tool-icon" aria-hidden="true" />
                 Guia completo

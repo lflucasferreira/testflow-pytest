@@ -8,7 +8,8 @@ Apresentação interativa sobre PyTest + Playwright, instalação e todos os com
 npm install
 npm run slides
 # http://localhost:3336/docs/slides/
-# Guia HTML: http://localhost:3336/docs/slides/guia-completo.html
+# Guia HTML: http://localhost:3336/docs/guia-completo.html
+# Complete guide (EN): http://localhost:3336/docs/complete-guide.html
 ```
 
 Ver [`slides/README.md`](slides/README.md) para export PDF.
