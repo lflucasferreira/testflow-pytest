@@ -38,7 +38,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -79,6 +79,7 @@ jobs:
       - name: Run PyTest — ${{ matrix.browser }}
         env:
           CI: "true"
+          ALLURE_BROWSER: ${{ matrix.browser }}
           DEMO_PASSWORD: ${{ secrets.DEMO_PASSWORD }}
         run: |
           . .venv/bin/activate
@@ -170,8 +171,12 @@ jobs:
         uses: actions/download-artifact@v7
         with:
           pattern: allure-results-*
-          merge-multiple: true
-          path: allure-results
+          path: allure-results-staging
+        continue-on-error: true
+
+      - name: Merge Allure results by browser
+        if: always()
+        run: npm run allure:merge-results
         continue-on-error: true
 
       - name: Prepare Allure report for Pages

@@ -29,6 +29,7 @@
     "test:ci:webkit": "pytest tests/smoke --browser webkit",
     "test:allure": "allure run -- pytest",
     "report:allure": "node scripts/generate-allure-report.mjs",
+    "allure:merge-results": "node scripts/merge-allure-results.mjs",
     "report:allure:open": "npx allure open allure-report",
     "report:allure:serve": "npm run report:allure && npm run report:allure:open",
     "pages:prepare-allure": "node scripts/prepare-allure-for-pages.mjs",

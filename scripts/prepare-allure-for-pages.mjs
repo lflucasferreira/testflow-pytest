@@ -42,7 +42,8 @@ if (fileCount === 0) {
   process.exit(0)
 }
 
-console.log(`Found ${fileCount} file(s) in allure-results — generating report`)
+console.log(`Found ${fileCount} file(s) in allure-results — merging and generating report`)
+execSync('node scripts/merge-allure-results.mjs', { cwd: root, stdio: 'inherit' })
 execSync('npm run report:allure', { cwd: root, stdio: 'inherit' })
 
 if (!fs.existsSync(path.join(allureReport, 'index.html'))) {

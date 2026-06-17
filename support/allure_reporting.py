@@ -99,13 +99,30 @@ def _attach_playwright_artifacts(node: pytest.Item) -> None:
             )
 
 
-def _write_environment_properties() -> None:
+def _resolve_browser_name(item: pytest.Item) -> str:
+    env = os.getenv("ALLURE_BROWSER")
+    if env:
+        return env
+
+    if hasattr(item, "callspec") and item.callspec is not None:
+        browser_name = item.callspec.params.get("browser_name")
+        if browser_name is not None:
+            return str(browser_name)
+
+    browsers = item.config.getoption("--browser", default=None)
+    if browsers:
+        return browsers[0] if isinstance(browsers, (list, tuple)) else str(browsers)
+
+    return "chromium"
+
+
+def _write_environment_properties(browser: str) -> None:
     ALLURE_RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     lines = [
-        f"Project=testflow-pytest",
+        "Project=testflow-pytest",
         f"Python={platform.python_version()}",
         f"Platform={platform.system()} {platform.release()}",
-        f"Browser=chromium",
+        f"Browser={browser}",
         f"BASE_URL={BASE_URL}",
         f"CI={os.getenv('CI', 'false')}",
     ]
@@ -133,6 +150,9 @@ def pytest_runtest_makereport(item: pytest.Item, call: pytest.CallInfo) -> None:
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_runtest_setup(item: pytest.Item) -> None:
+    browser = _resolve_browser_name(item)
+    allure.dynamic.label("browser", browser)
+
     suite = _suite_from_path(item.nodeid)
     if suite:
         allure.dynamic.parent_suite("testflow-pytest")
@@ -152,4 +172,11 @@ def pytest_runtest_setup(item: pytest.Item) -> None:
 def pytest_sessionfinish(session: pytest.Session, exitstatus: int) -> None:
     if session.config.getoption("--collect-only", default=False):
         return
-    _write_environment_properties()
+    browser = os.getenv("ALLURE_BROWSER")
+    if not browser:
+        browsers = session.config.getoption("--browser", default=None)
+        if browsers:
+            browser = browsers[0] if isinstance(browsers, (list, tuple)) else str(browsers)
+        else:
+            browser = "chromium"
+    _write_environment_properties(browser)
