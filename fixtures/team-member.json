@@ -1,0 +1,11 @@
+{
+  "new": {
+    "name": "Grace SDET",
+    "email": "grace@testflow.io"
+  },
+  "duplicate": {
+    "name": "Alice QA",
+    "email": "alice@testflow.io",
+    "role": "admin"
+  }
+}

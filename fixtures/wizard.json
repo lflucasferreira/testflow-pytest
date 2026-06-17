@@ -1,0 +1,13 @@
+{
+  "personal": {
+    "name": "Alex Automation",
+    "email": "alex.automation@testflow.io",
+    "dob": "1990-05-15",
+    "country": "ca"
+  },
+  "preferences": {
+    "framework": "playwright",
+    "role": "qa",
+    "experience": "3"
+  }
+}

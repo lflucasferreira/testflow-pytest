@@ -1,0 +1,1 @@
+QA automation sample file for upload tests.

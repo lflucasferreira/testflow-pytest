@@ -1,0 +1,28 @@
+{
+  "validNamePatches": [
+    {
+      "label": "simple name replace",
+      "patches": [{ "op": "replace", "path": "/name", "value": "Patch Test User" }]
+    },
+    {
+      "label": "full name triple replace",
+      "patches": [
+        { "op": "replace", "path": "/name", "value": "Alex" },
+        { "op": "replace", "path": "/middleName", "value": "QA" },
+        { "op": "replace", "path": "/lastName", "value": "Engineer" }
+      ]
+    }
+  ],
+  "invalidPatches": [
+    {
+      "label": "unknown path",
+      "patches": [{ "op": "replace", "path": "/invalid", "value": null }],
+      "userId": 999
+    },
+    {
+      "label": "missing user",
+      "patches": [{ "op": "replace", "path": "/name", "value": "Ghost" }],
+      "userId": 999
+    }
+  ]
+}

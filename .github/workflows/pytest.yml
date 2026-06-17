@@ -1,0 +1,148 @@
+name: PyTest E2E
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  setup:
+    name: Install dependencies
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Cache venv
+        id: cache-venv
+        uses: actions/cache@v5
+        with:
+          path: .venv
+          key: pytest-venv-${{ hashFiles('requirements.txt') }}
+
+      - name: Install dependencies
+        if: steps.cache-venv.outputs.cache-hit != 'true'
+        run: |
+          python -m venv .venv
+          . .venv/bin/activate
+          pip install -r requirements.txt
+
+      - name: Install Playwright Chromium
+        run: |
+          . .venv/bin/activate
+          playwright install chromium --with-deps
+
+  test:
+    name: PyTest — ${{ matrix.suite }}
+    runs-on: ubuntu-latest
+    needs: setup
+    timeout-minutes: 15
+    services:
+      testflow:
+        image: qaschool/testflow:latest
+        ports:
+          - 5050:5050
+        options: >-
+          --health-interval 15s
+          --health-timeout 10s
+          --health-retries 6
+          --health-start-period 90s
+    strategy:
+      fail-fast: false
+      matrix:
+        suite:
+          - smoke
+          - auth
+          - dashboard
+          - team
+          - settings
+          - components
+          - wizard
+          - activity
+          - advanced
+          - states
+          - api
+          - visual
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Restore venv
+        uses: actions/cache@v5
+        with:
+          path: .venv
+          key: pytest-venv-${{ hashFiles('requirements.txt') }}
+
+      - name: Install Playwright Chromium
+        run: |
+          . .venv/bin/activate
+          playwright install chromium --with-deps
+
+      - name: Run PyTest — ${{ matrix.suite }}
+        env:
+          CI: "true"
+          DEMO_PASSWORD: ${{ secrets.DEMO_PASSWORD }}
+        run: |
+          . .venv/bin/activate
+          pytest tests/${{ matrix.suite }} --tracing retain-on-failure
+
+      - name: Upload traces on failure
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: traces-${{ matrix.suite }}
+          path: test-results/
+          if-no-files-found: ignore
+
+  smoke-grep:
+    name: PyTest — @smoke marker
+    runs-on: ubuntu-latest
+    needs: setup
+    timeout-minutes: 10
+    services:
+      testflow:
+        image: qaschool/testflow:latest
+        ports:
+          - 5050:5050
+        options: >-
+          --health-interval 15s
+          --health-timeout 10s
+          --health-retries 6
+          --health-start-period 90s
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Restore venv
+        uses: actions/cache@v5
+        with:
+          path: .venv
+          key: pytest-venv-${{ hashFiles('requirements.txt') }}
+
+      - name: Install Playwright Chromium
+        run: |
+          . .venv/bin/activate
+          playwright install chromium --with-deps
+
+      - name: Run @smoke tests
+        env:
+          CI: "true"
+          DEMO_PASSWORD: ${{ secrets.DEMO_PASSWORD }}
+        run: |
+          . .venv/bin/activate
+          pytest -m smoke

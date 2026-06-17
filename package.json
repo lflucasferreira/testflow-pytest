@@ -1,0 +1,16 @@
+{
+  "name": "testflow-pytest",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PyTest + Playwright automation for TestFlow web app",
+  "scripts": {
+    "slides": "npx serve . -p 3336",
+    "slides:open": "npx serve . -p 3336 & sleep 1 && open http://localhost:3336/docs/slides/",
+    "slides:pdf": "node scripts/export-slides-pdf.mjs"
+  },
+  "devDependencies": {
+    "decktape": "^3.16.1",
+    "highlight.js": "^11.11.1",
+    "reveal.js": "^5.1.0"
+  }
+}
