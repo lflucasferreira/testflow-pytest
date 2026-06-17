@@ -24,7 +24,7 @@
     "test:a11y": "pytest -m a11y",
     "test:visual": "pytest tests/visual",
     "test:grep:smoke": "pytest -m smoke",
-    "test:ci:chromium": "pytest",
+    "test:ci:chromium": "pytest --browser chromium",
     "test:ci:firefox": "pytest tests/smoke --browser firefox",
     "test:ci:webkit": "pytest tests/smoke --browser webkit",
     "test:allure": "allure run -- pytest",
