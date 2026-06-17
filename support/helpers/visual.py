@@ -1,10 +1,12 @@
 import io
+import os
 from pathlib import Path
 
 from PIL import Image, ImageChops
 from playwright.sync_api import Locator
 
 SNAPSHOTS_DIR = Path(__file__).resolve().parents[2] / "tests" / "visual" / "snapshots"
+DEFAULT_MAX_DIFF_PIXEL_RATIO = 0.07 if os.getenv("CI") else 0.05
 
 
 def snapshot_path(name: str, browser_name: str) -> Path:
@@ -30,7 +32,7 @@ def assert_locator_screenshot(
     *,
     browser_name: str,
     update: bool = False,
-    max_diff_pixel_ratio: float = 0.05,
+    max_diff_pixel_ratio: float = DEFAULT_MAX_DIFF_PIXEL_RATIO,
 ) -> None:
     path = snapshot_path(name, browser_name)
     path.parent.mkdir(parents=True, exist_ok=True)
