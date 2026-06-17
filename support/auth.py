@@ -15,11 +15,20 @@ def fetch_auth_token(
         "/api/auth/login",
         data={"email": email, "password": password},
     )
+    if response.status != 200:
+        raise RuntimeError(
+            f"Auth login failed with status {response.status}: {response.text()}"
+        )
     body = response.json()
+    token = body.get("token")
+    if not token:
+        raise RuntimeError(
+            f"Token not found in auth response (status {response.status}): {body}"
+        )
     return {
         "email": email,
         "name": body.get("user", {}).get("name", "Demo User"),
-        "token": body["token"],
+        "token": token,
     }
 
 
