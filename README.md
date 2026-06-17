@@ -146,7 +146,10 @@ GitHub Actions runs **3 parallel jobs** by browser against the `qaschool/testflo
 | `firefox` | Smoke only |
 | `webkit` | Smoke only |
 
-Allure results merge on push to `main`; GitHub Pages deploys landing, slides, and report (`/report/`).
+On push to `main`, GitHub Pages deploys in two phases (like `testflow-appium`):
+
+1. **`publish-docs` / `deploy-docs`** — landing, guides, and slides immediately (`/report/` placeholder).
+2. **`publish-report` / `deploy-report`** — after tests finish, merges Allure and redeploys the full site.
 
 ```bash
 # Same commands as CI (venv active)

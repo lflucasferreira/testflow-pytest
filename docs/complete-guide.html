@@ -937,12 +937,7 @@ pytest --screenshot only-on-failure</code></pre>
                 Service container: <code>qaschool/testflow:latest</code> on port 5050
               </span>
             </li>
-            <li>
-              <span class="tool-inline">
-                <img src="slides/assets/icons/allure.svg" alt="" class="tool-icon" aria-hidden="true" />
-                Allure 3 published on GitHub Pages (<code>/report/</code>) on <code>main</code>
-              </span>
-            </li>
+            <li>Pages in 2 phases: <code>publish-docs</code> (guides/slides first) → <code>publish-report</code> (Allure after tests)</li>
             <li>Artifacts: <code>test-results/</code> on failure</li>
           </ul>
           <pre><code class="language-bash">npm run test:ci:chromium
