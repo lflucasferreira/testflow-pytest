@@ -7,10 +7,44 @@
     <meta name="description" content="Apresentação introdutória sobre PyTest + Playwright: instalação, E2E, API, POM e comandos do testflow-pytest." />
 
     <link rel="icon" href="assets/pytest-mark.svg" type="image/svg+xml" />
+    <script>
+      (function () {
+        var path = location.pathname
+        var last = path.split('/').filter(Boolean).pop() || ''
+        if (/\.html?$/i.test(last)) return
+
+        var base
+        var slidesIdx = path.indexOf('/slides')
+        if (slidesIdx !== -1) {
+          base = path.substring(0, slidesIdx + '/slides'.length) + '/'
+        } else {
+          base = path.replace(/\/index$/i, '')
+          if (!base.endsWith('/')) base += '/'
+        }
+
+        var b = document.createElement('base')
+        b.href = base
+        document.head.appendChild(b)
+      })()
+    </script>
+    <script>
+      (function () {
+        var k = 'pt-docs-theme'
+        var t = localStorage.getItem(k)
+        if (t !== 'light' && t !== 'dark') {
+          t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+        }
+        document.documentElement.setAttribute('data-theme', t)
+      })()
+    </script>
     <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css" />
-    <link rel="stylesheet" href="../../node_modules/reveal.js/dist/theme/black.css" />
-    <link rel="stylesheet" href="../../node_modules/highlight.js/styles/github-dark.css" />
+    <link id="reveal-theme" rel="stylesheet" href="../../node_modules/reveal.js/dist/theme/black.css" />
+    <link id="hljs-theme" rel="stylesheet" href="../../node_modules/highlight.js/styles/github-dark.css" />
+    <link rel="stylesheet" href="css/themes.css" />
+    <link rel="stylesheet" href="css/theme-toggle.css" />
     <link rel="stylesheet" href="css/theme-pytest.css" />
+    <link rel="stylesheet" href="css/icons.css" />
+    <link rel="stylesheet" href="css/media-lightbox.css" />
     <script>
       if (window.location.search.match(/print-pdf/gi)) {
         const link = document.createElement('link')
@@ -22,25 +56,23 @@
     </script>
   </head>
   <body>
+    <button type="button" class="theme-toggle theme-toggle--floating" aria-label="Toggle theme">
+      <span class="theme-toggle-icon theme-toggle-icon--dark" aria-hidden="true">☀</span>
+      <span class="theme-toggle-icon theme-toggle-icon--light" aria-hidden="true">☾</span>
+    </button>
     <div class="footer-bar" aria-hidden="true"></div>
 
     <div class="reveal">
       <div class="slides">
 
         <section class="slide-title" data-auto-animate>
-          <div class="logo-wrap logo-wrap--wordmark">
-            <img
-              src="assets/pytest-logo.svg"
-              alt="pytest — makes it easy to write small tests, yet scales to support complex functional testing"
-              class="pytest-wordmark"
-            />
+          <div class="logo-wrap">
+            <img src="assets/pytest-mark.svg" alt="pytest logo" width="72" height="72" />
+            <span class="wordmark">PyTest</span>
           </div>
-          <h1>Automação E2E e API com Python</h1>
+          <h1>Testes E2E e API com Python</h1>
           <p class="subtitle">Instalação, fixtures, markers, Playwright, POM e comandos do testflow-pytest</p>
           <span class="badge">Automação · Python · testflow-pytest</span>
-          <p class="fragment fade-up logo-attribution" style="font-size: 0.38em; color: var(--pt-muted); margin-top: 1.2em;">
-            Logo pytest — <a href="https://github.com/pytest-dev/design" target="_blank" rel="noopener">pytest-dev/design</a> · CC BY-SA 4.0
-          </p>
         </section>
 
         <section>
@@ -62,23 +94,23 @@
           <h2>Por que PyTest + Playwright?</h2>
           <div class="feature-grid">
             <div class="feature-card fragment fade-up">
-              <div class="icon">🐍</div>
-              <h4>Python nativo</h4>
+              <h4 class="icon-heading"><img src="assets/icons/python.svg" alt="" class="tool-icon" aria-hidden="true" /> Python nativo</h4>
               <p>Ideal para times QA/dev que preferem Python a TypeScript.</p>
             </div>
             <div class="feature-card fragment fade-up">
-              <div class="icon">🔁</div>
-              <h4>Fixtures declarativas</h4>
+              <h4 class="icon-heading"><img src="assets/pytest-mark.svg" alt="" class="tool-icon" aria-hidden="true" /> Fixtures declarativas</h4>
               <p><code>autouse</code>, <code>scope="session"</code> — auth cache uma vez por run.</p>
             </div>
             <div class="feature-card fragment fade-up">
-              <div class="icon">🌐</div>
-              <h4>E2E + API unificados</h4>
+              <h4 class="icon-heading"><img src="assets/playwright-logo.svg" alt="" class="tool-icon" aria-hidden="true" /> E2E + API unificados</h4>
               <p><code>page</code> para UI e <code>api_request</code> para contratos REST.</p>
             </div>
             <div class="feature-card fragment fade-up">
-              <div class="icon">🪞</div>
-              <h4>Espelho TestFlow</h4>
+              <h4 class="icon-heading">
+                <img src="assets/icons/cypress.svg" alt="" class="tool-icon" aria-hidden="true" />
+                <img src="assets/playwright-logo.svg" alt="" class="tool-icon" aria-hidden="true" />
+                Espelho TestFlow
+              </h4>
               <p>Mesma cobertura de <code>testflow-cypress</code> e <code>testflow-playwright</code>.</p>
             </div>
           </div>
@@ -89,11 +121,23 @@
           <div class="two-col">
             <div>
               <h3>Ambiente</h3>
-              <ul>
-                <li class="fragment fade-up"><strong>Python</strong> 3.11+ (CI usa 3.12)</li>
-                <li class="fragment fade-up"><strong>pip</strong> + venv</li>
-                <li class="fragment fade-up">App TestFlow na porta <code>5050</code></li>
-                <li class="fragment fade-up">Node.js 18+ — <em>só</em> para servir slides (<code>npm install</code>)</li>
+              <ul class="tool-list" style="font-size:0.85em;">
+                <li class="fragment fade-up">
+                  <img src="assets/icons/python.svg" alt="" class="tool-icon" aria-hidden="true" />
+                  <span><strong>Python</strong> 3.11+ (CI usa 3.12) · <strong>pip</strong> + venv</span>
+                </li>
+                <li class="fragment fade-up">
+                  <img src="assets/icons/testflow.svg" alt="" class="tool-icon" aria-hidden="true" />
+                  <span>App <strong>TestFlow</strong> na porta <code>5050</code></span>
+                </li>
+                <li class="fragment fade-up">
+                  <img src="assets/icons/nodedotjs.svg" alt="" class="tool-icon" aria-hidden="true" />
+                  <span><strong>Node.js</strong> 18+ — <em>só</em> para servir slides (<code>npm install</code>)</span>
+                </li>
+                <li class="fragment fade-up">
+                  <img src="assets/icons/visualstudiocode.svg" alt="" class="tool-icon" aria-hidden="true" />
+                  <span>Editor: <strong>VS Code</strong> / <img src="assets/icons/cursor.svg" alt="" class="tool-icon tool-icon--sm" aria-hidden="true" /> <strong>Cursor</strong></span>
+                </li>
               </ul>
             </div>
             <div class="terminal fragment fade-up">
@@ -107,10 +151,110 @@
                 <div>Python 3.12.x</div>
                 <br />
                 <div><span class="prompt">$</span> docker run -p 5050:5050 qaschool/testflow:latest</div>
-                <div class="comment"># app em localhost:5050</div>
+                <div class="comment"># app disponível em localhost:5050</div>
               </div>
             </div>
           </div>
+        </section>
+
+        <section>
+          <section>
+            <h2>Instalação do ambiente por SO</h2>
+            <p style="font-size: 0.75em; color: var(--pt-muted);">
+              Antes de clonar o projeto:
+              <span class="tool-inline"><img src="assets/icons/python.svg" alt="" class="tool-icon" width="16" height="16" aria-hidden="true" />Python 3.11+</span>,
+              <span class="tool-inline"><img src="assets/icons/git.svg" alt="" class="tool-icon" width="16" height="16" aria-hidden="true" />Git</span> e
+              <span class="tool-inline"><img src="assets/icons/docker.svg" alt="" class="tool-icon" width="16" height="16" aria-hidden="true" />Docker</span>
+              (TestFlow na porta 5050).
+            </p>
+            <p style="font-size: 0.65em; color: var(--pt-muted); margin-top: 1em;">
+              <span class="tool-inline"><img src="assets/icons/apple.svg" alt="" class="tool-icon" width="14" height="14" aria-hidden="true" /> macOS</span> ·
+              <span class="tool-inline"><img src="assets/icons/windows.svg" alt="" class="tool-icon" width="14" height="14" aria-hidden="true" /> Windows</span> ·
+              <span class="tool-inline"><img src="assets/icons/linux.svg" alt="" class="tool-icon" width="14" height="14" aria-hidden="true" /> Linux</span>
+            </p>
+          </section>
+
+          <section>
+            <h2 class="icon-heading"><img src="assets/icons/apple.svg" alt="" class="tool-icon tool-icon--md" aria-hidden="true" /> macOS</h2>
+            <div class="two-col" style="font-size: 0.62em;">
+              <div>
+                <h3 class="icon-heading"><img src="assets/icons/homebrew.svg" alt="" class="tool-icon" aria-hidden="true" /> Homebrew (recomendado)</h3>
+                <pre><code class="hljs bash"># Homebrew — https://brew.sh
+brew install python@3.12 git
+brew link --overwrite python@3.12
+brew install --cask docker
+
+python3 --version   # 3.11+
+git --version
+docker --version</code></pre>
+              </div>
+              <div>
+                <h3 class="icon-heading"><img src="assets/icons/python.svg" alt="" class="tool-icon" aria-hidden="true" /> Alternativa: pyenv</h3>
+                <pre><code class="hljs bash">brew install pyenv
+pyenv install 3.12
+pyenv global 3.12
+
+# TestFlow
+docker run --rm -p 5050:5050 qaschool/testflow:latest</code></pre>
+                <p style="font-size: 0.9em; color: var(--pt-muted); margin-top: 0.5em;">
+                  Terminal: Terminal.app, iTerm ou integrado do VS Code / Cursor.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2 class="icon-heading"><img src="assets/icons/windows.svg" alt="" class="tool-icon tool-icon--md" aria-hidden="true" /> Windows</h2>
+            <div class="two-col" style="font-size: 0.62em;">
+              <div>
+                <h3 class="icon-heading"><img src="assets/icons/winget.svg" alt="" class="tool-icon" aria-hidden="true" /> winget (Windows 10/11)</h3>
+                <pre><code class="hljs powershell">winget install Python.Python.3.12
+winget install Git.Git
+winget install Docker.DockerDesktop
+
+python --version
+git --version</code></pre>
+                <p style="font-size: 0.9em; color: var(--pt-muted); margin-top: 0.5em;">
+                  Use <span class="tool-inline"><img src="assets/icons/powershell.svg" alt="" class="tool-icon" width="14" height="14" aria-hidden="true" /><strong>PowerShell</strong></span> ou
+                  <span class="tool-inline"><img src="assets/icons/git.svg" alt="" class="tool-icon" width="14" height="14" aria-hidden="true" /><strong>Git Bash</strong></span> para os comandos Python.
+                </p>
+              </div>
+              <div>
+                <h3>Instaladores manuais</h3>
+                <ul style="font-size: 0.95em;">
+                  <li><a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org</a> — 3.11+</li>
+                  <li><a href="https://git-scm.com/download/win" target="_blank" rel="noopener">git-scm.com</a></li>
+                  <li><a href="https://docker.com/products/docker-desktop" target="_blank" rel="noopener">Docker Desktop</a></li>
+                </ul>
+                <pre><code class="hljs bash">docker run --rm -p 5050:5050 qaschool/testflow:latest</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2 class="icon-heading"><img src="assets/icons/linux.svg" alt="" class="tool-icon tool-icon--md" aria-hidden="true" /> Linux</h2>
+            <div class="two-col" style="font-size: 0.62em;">
+              <div>
+                <h3 class="icon-heading"><img src="assets/icons/linux.svg" alt="" class="tool-icon" aria-hidden="true" /> Debian / Ubuntu</h3>
+                <pre><code class="hljs bash">sudo apt-get update
+sudo apt-get install -y python3 python3-venv python3-pip git docker.io
+sudo usermod -aG docker $USER   # relogar depois
+
+python3 --version</code></pre>
+              </div>
+              <div>
+                <h3 class="icon-heading"><img src="assets/playwright-logo.svg" alt="" class="tool-icon" aria-hidden="true" /> Dependências do Playwright</h3>
+                <pre><code class="hljs bash"># Após pip install — libs do Chromium
+playwright install-deps
+
+docker run --rm -p 5050:5050 qaschool/testflow:latest</code></pre>
+                <p style="font-size: 0.9em; color: var(--pt-muted); margin-top: 0.5em;">
+                  Fedora/RHEL: <code>sudo dnf install python3 git docker</code> ·
+                  Arch: <code>sudo pacman -S python python-pip git docker</code>
+                </p>
+              </div>
+            </div>
+          </section>
         </section>
 
         <section>
@@ -125,7 +269,8 @@
             <li class="fragment fade-up">
               <div>
                 <strong>Crie o venv e instale deps Python</strong><br />
-                <code>python -m venv .venv && source .venv/bin/activate</code><br />
+                <code>python3 -m venv .venv</code><br />
+                <code>source .venv/bin/activate</code> · Windows: <code>.venv\Scripts\activate</code><br />
                 <code>pip install -r requirements.txt</code>
               </div>
             </li>
@@ -918,12 +1063,18 @@ pytest tests/dashboard/test_dashboard.py::TestKpiCards::test_renders_all_four_kp
           <h2>Como executar — opções Playwright</h2>
           <div class="two-col">
             <div class="feature-card fragment fade-up">
-              <h4>👁 Headed — ver execução</h4>
+              <h4 class="icon-heading">
+                <img src="assets/playwright-logo.svg" alt="" class="tool-icon" aria-hidden="true" />
+                Headed — ver execução
+              </h4>
               <pre><code class="language-bash">pytest --headed
 pytest tests/auth --headed</code></pre>
             </div>
             <div class="feature-card fragment fade-up">
-              <h4>📸 Visual baselines</h4>
+              <h4 class="icon-heading">
+                <img src="assets/playwright-logo.svg" alt="" class="tool-icon" aria-hidden="true" />
+                Visual baselines
+              </h4>
               <pre><code class="language-bash">pytest tests/visual
 pytest tests/visual --update-snapshots</code></pre>
             </div>
@@ -939,18 +1090,27 @@ pytest --screenshot only-on-failure</code></pre>
         </section>
 
         <section>
-          <h2>CI — GitHub Actions</h2>
+          <h2 class="icon-heading">
+            <img src="assets/icons/github.svg" alt="" class="tool-icon tool-icon--lg" aria-hidden="true" />
+            CI — GitHub Actions
+          </h2>
           <div class="feature-grid fragment fade-up" style="font-size: 0.62em;">
             <div class="feature-card">
               <h4>Matrix paralela</h4>
               <p>12 suites + job <code>@smoke</code> — smoke, auth, dashboard… visual, api</p>
             </div>
             <div class="feature-card">
-              <h4>Service container</h4>
+              <h4 class="icon-heading">
+                <img src="assets/icons/docker.svg" alt="" class="tool-icon" aria-hidden="true" />
+                Service container
+              </h4>
               <p><code>qaschool/testflow:latest</code> na porta 5050</p>
             </div>
             <div class="feature-card">
-              <h4>Artefatos</h4>
+              <h4 class="icon-heading">
+                <img src="assets/playwright-logo.svg" alt="" class="tool-icon" aria-hidden="true" />
+                Artefatos
+              </h4>
               <p>Traces Playwright em <code>test-results/</code> em falha</p>
             </div>
             <div class="feature-card">
@@ -969,19 +1129,31 @@ pytest -m smoke</code></pre>
           <h2>Documentação de treinamento</h2>
           <div class="feature-grid fragment fade-up" style="font-size: 0.65em;">
             <div class="feature-card">
-              <h4>📖 docs/pt/</h4>
+              <h4 class="icon-heading">
+                <img src="assets/icons/markdown.svg" alt="" class="tool-icon" aria-hidden="true" />
+                docs/pt/
+              </h4>
               <p>Walkthrough bloco a bloco de cada arquivo de teste (PT-BR)</p>
             </div>
             <div class="feature-card">
-              <h4>📖 docs/en/</h4>
+              <h4 class="icon-heading">
+                <img src="assets/icons/markdown.svg" alt="" class="tool-icon" aria-hidden="true" />
+                docs/en/
+              </h4>
               <p>Same training material in English</p>
             </div>
             <div class="feature-card">
-              <h4>🎞 Slides</h4>
+              <h4 class="icon-heading">
+                <img src="assets/pytest-mark.svg" alt="" class="tool-icon" aria-hidden="true" />
+                Slides
+              </h4>
               <p><code>npm run slides</code> → porta <code>3336</code></p>
             </div>
             <div class="feature-card">
-              <h4>📄 PDF</h4>
+              <h4 class="icon-heading">
+                <img src="assets/icons/pdf.svg" alt="" class="tool-icon" aria-hidden="true" />
+                PDF
+              </h4>
               <p><code>npm run slides:pdf</code> → <code>pytest-intro-slides.pdf</code></p>
             </div>
           </div>
@@ -1012,19 +1184,31 @@ pytest -m smoke</code></pre>
           <p>Você já sabe instalar, configurar e escrever testes E2E e API com PyTest + Playwright no TestFlow.</p>
           <div class="links">
             <a class="link-card fragment fade-up" href="guia-completo.html">
-              <strong>📄 Guia completo</strong>
+              <strong class="icon-heading">
+                <img src="assets/icons/html5.svg" alt="" class="tool-icon" aria-hidden="true" />
+                Guia completo
+              </strong>
               Passo a passo em HTML
             </a>
             <a class="link-card fragment fade-up" href="https://docs.pytest.org/en/stable/" target="_blank" rel="noopener">
-              <strong>📚 PyTest docs</strong>
+              <strong class="icon-heading">
+                <img src="assets/pytest-mark.svg" alt="" class="tool-icon" aria-hidden="true" />
+                PyTest docs
+              </strong>
               docs.pytest.org
             </a>
             <a class="link-card fragment fade-up" href="https://playwright.dev/python/docs/intro" target="_blank" rel="noopener">
-              <strong>🎭 Playwright Python</strong>
+              <strong class="icon-heading">
+                <img src="assets/playwright-logo.svg" alt="" class="tool-icon" aria-hidden="true" />
+                Playwright Python
+              </strong>
               playwright.dev/python
             </a>
             <a class="link-card fragment fade-up" href="https://github.com/qaschoolbr/testflow" target="_blank" rel="noopener">
-              <strong>🧪 TestFlow</strong>
+              <strong class="icon-heading">
+                <img src="assets/icons/testflow.svg" alt="" class="tool-icon" aria-hidden="true" />
+                TestFlow
+              </strong>
               App sob teste
             </a>
           </div>
@@ -1036,6 +1220,7 @@ pytest -m smoke</code></pre>
       </div>
     </div>
 
+    <script src="js/theme.js" data-base="../../"></script>
     <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
     <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
     <script>
@@ -1064,5 +1249,6 @@ pytest -m smoke</code></pre>
         }
       })
     </script>
+    <script src="../js/media-lightbox.js"></script>
   </body>
 </html>

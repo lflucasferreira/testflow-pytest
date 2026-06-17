@@ -1,6 +1,7 @@
 import pytest
 from playwright.sync_api import APIRequestContext
 
+import support.allure_reporting  # noqa: F401 — registers Allure hooks
 from support.auth import fetch_auth_token
 from support.config import BASE_URL
 from support.session_store import write_session, write_token_cache

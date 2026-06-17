@@ -7,6 +7,10 @@ __pycache__/
 .pytest_cache/
 test-results/
 playwright-report/
+allure-results/
+allure-report/
+allure-history/
+site/
 htmlcov/
 .mypy_cache/
 .ruff_cache/

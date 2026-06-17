@@ -6,8 +6,18 @@
     <title>PyTest — Guia Completo (Instalação &amp; Comandos)</title>
     <meta name="description" content="Passo a passo: o que é PyTest, instalação, estrutura do projeto e referência de todos os comandos dos slides testflow-pytest." />
     <link rel="icon" href="assets/pytest-mark.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css" />
+    <script src="../js/theme-init.js"></script>
+    <link
+      id="hljs-theme"
+      rel="stylesheet"
+      data-base="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css"
+    />
     <link rel="stylesheet" href="css/guide.css" />
+    <link rel="stylesheet" href="css/icons.css" />
+    <link rel="stylesheet" href="css/theme-light.css" />
+    <link rel="stylesheet" href="css/theme-toggle.css" />
+    <link rel="stylesheet" href="css/media-lightbox.css" />
   </head>
   <body>
     <header class="site-header">
@@ -16,9 +26,13 @@
         PyTest — Guia Completo
       </a>
       <nav class="header-links">
+        <a href="../index.html">Home</a>
         <a href="index.html">Slides</a>
-        <a href="../pt/README.md">Docs PT</a>
         <a href="https://docs.pytest.org" target="_blank" rel="noopener">Docs oficiais</a>
+        <button type="button" class="theme-toggle" aria-label="Toggle theme">
+          <span class="theme-toggle-icon theme-toggle-icon--dark" aria-hidden="true">☀</span>
+          <span class="theme-toggle-icon theme-toggle-icon--light" aria-hidden="true">☾</span>
+        </button>
       </nav>
     </header>
 
@@ -29,6 +43,7 @@
           <li><a href="#o-que-e">O que é PyTest</a></li>
           <li><a href="#por-que">Por que PyTest + Playwright</a></li>
           <li><a href="#pre-requisitos">Pré-requisitos</a></li>
+          <li><a href="#platform-setup">Setup por plataforma</a></li>
           <li><a href="#instalacao">Instalação</a></li>
           <li><a href="#credenciais">Credenciais &amp; env</a></li>
           <li><a href="#estrutura">Estrutura do projeto</a></li>
@@ -82,13 +97,16 @@
 
       <main>
         <header class="hero">
-          <img src="assets/pytest-logo.svg" alt="pytest logo" style="width:min(360px,90%);height:auto;margin-bottom:1rem;" />
+          <div class="hero-logo">
+            <img src="assets/pytest-mark.svg" alt="pytest" width="64" height="64" />
+            <span class="wordmark">PyTest</span>
+          </div>
           <h1>PyTest — Guia passo a passo</h1>
           <p class="subtitle">
             Do zero à referência completa: instalação, fixtures, markers, Playwright E2E/API,
             Page Objects e todos os comandos apresentados nos slides do <strong>testflow-pytest</strong>.
           </p>
-          <span class="badge">Python · PyTest · Playwright · POM · API REST</span>
+          <span class="badge">Python · PyTest · Playwright · POM · testflow-pytest</span>
         </header>
 
         <section id="o-que-e">
@@ -114,19 +132,23 @@
           <h2>Por que PyTest + Playwright?</h2>
           <div class="feature-grid">
             <div class="feature-card">
-              <h4>🐍 Python nativo</h4>
+              <h4 class="icon-heading"><img src="assets/icons/python.svg" alt="" class="tool-icon tool-icon--md" aria-hidden="true" /> Python nativo</h4>
               <p>Ideal para times QA/dev que preferem Python a TypeScript.</p>
             </div>
             <div class="feature-card">
-              <h4>🔁 Fixtures declarativas</h4>
+              <h4 class="icon-heading"><img src="assets/pytest-mark.svg" alt="" class="tool-icon tool-icon--md" aria-hidden="true" /> Fixtures declarativas</h4>
               <p><code>autouse</code>, <code>scope="session"</code> — auth cache uma vez por run.</p>
             </div>
             <div class="feature-card">
-              <h4>🌐 E2E + API unificados</h4>
+              <h4 class="icon-heading"><img src="assets/playwright-logo.svg" alt="" class="tool-icon tool-icon--md" aria-hidden="true" /> E2E + API unificados</h4>
               <p><code>page</code> para UI e <code>api_request</code> para contratos REST.</p>
             </div>
             <div class="feature-card">
-              <h4>🪞 Espelho TestFlow</h4>
+              <h4 class="icon-heading">
+                <img src="assets/icons/cypress.svg" alt="" class="tool-icon tool-icon--md" aria-hidden="true" />
+                <img src="assets/playwright-logo.svg" alt="" class="tool-icon tool-icon--md" aria-hidden="true" />
+                Espelho TestFlow
+              </h4>
               <p>Mesma cobertura de <code>testflow-cypress</code> e <code>testflow-playwright</code>.</p>
             </div>
           </div>
@@ -135,12 +157,27 @@
         <section id="pre-requisitos">
           <h2>Pré-requisitos</h2>
           <div class="two-col">
-            <ul>
-              <li><strong>Python</strong> 3.11+ (CI usa 3.12)</li>
-              <li><strong>pip</strong> + venv</li>
-              <li>App TestFlow na porta <code>5050</code></li>
-              <li>Node.js 18+ — <em>só</em> para servir slides (<code>npm install</code>)</li>
-            </ul>
+            <div>
+              <h3>Ambiente</h3>
+              <ul class="tool-list">
+                <li>
+                  <img src="assets/icons/python.svg" alt="" class="tool-icon" width="20" height="20" aria-hidden="true" />
+                  <span><strong>Python</strong> 3.11+ (CI usa 3.12) · <strong>pip</strong> + venv</span>
+                </li>
+                <li>
+                  <img src="assets/icons/docker.svg" alt="" class="tool-icon" width="20" height="20" aria-hidden="true" />
+                  <span><strong>TestFlow</strong> na porta <code>5050</code></span>
+                </li>
+                <li>
+                  <img src="assets/icons/nodedotjs.svg" alt="" class="tool-icon" width="20" height="20" aria-hidden="true" />
+                  <span><strong>Node.js</strong> 18+ — <em>só</em> para servir slides (<code>npm install</code>)</span>
+                </li>
+                <li>
+                  <img src="assets/icons/visualstudiocode.svg" alt="" class="tool-icon" width="20" height="20" aria-hidden="true" />
+                  <span>Editor: <strong>VS Code</strong> / <img src="assets/icons/cursor.svg" alt="" class="tool-icon tool-icon--sm" width="16" height="16" aria-hidden="true" style="vertical-align:-0.15em" /> <strong>Cursor</strong></span>
+                </li>
+              </ul>
+            </div>
             <div class="terminal">
               <div class="terminal-header">
                 <span class="terminal-dot red"></span>
@@ -152,9 +189,72 @@
                 <div>Python 3.12.x</div>
                 <br />
                 <div><span class="prompt">$</span> docker run -p 5050:5050 qaschool/testflow:latest</div>
+                <div class="comment"># app disponível em localhost:5050</div>
               </div>
             </div>
           </div>
+        </section>
+
+        <section id="platform-setup">
+          <h2>Configuração do ambiente por plataforma</h2>
+          <p>
+            Antes de clonar o repositório, instale
+            <span class="tool-inline"><img src="assets/icons/python.svg" alt="" class="tool-icon" width="18" height="18" aria-hidden="true" /><strong>Python 3.11+</strong></span>,
+            <span class="tool-inline"><img src="assets/icons/git.svg" alt="" class="tool-icon" width="18" height="18" aria-hidden="true" /><strong>Git</strong></span>, e
+            <span class="tool-inline"><img src="assets/icons/docker.svg" alt="" class="tool-icon" width="18" height="18" aria-hidden="true" /><strong>Docker</strong></span>
+            (para rodar <span class="tool-inline"><img src="assets/icons/testflow.svg" alt="" class="tool-icon" width="18" height="18" aria-hidden="true" />TestFlow</span> na porta <code>5050</code>).
+            Os passos do projeto (<code>pip install</code>, browsers) são os mesmos em todo SO.
+          </p>
+
+          <div class="feature-grid platform-grid">
+            <div class="feature-card">
+              <h4 class="icon-heading"><img src="assets/icons/apple.svg" alt="" class="tool-icon" aria-hidden="true" /> macOS</h4>
+              <pre><code class="language-bash"># Homebrew — https://brew.sh
+brew install python@3.12 git
+brew link --overwrite python@3.12
+brew install --cask docker
+
+python3 --version   # 3.11+
+git --version</code></pre>
+              <div class="platform-tools">
+                <span class="tool-chip"><img src="assets/icons/homebrew.svg" alt="" class="tool-icon" aria-hidden="true" /> Homebrew</span>
+                <span class="tool-chip"><img src="assets/icons/python.svg" alt="" class="tool-icon" aria-hidden="true" /> pyenv</span>
+                <span class="tool-chip"><img src="assets/icons/docker.svg" alt="" class="tool-icon" aria-hidden="true" /> Docker Desktop</span>
+              </div>
+            </div>
+            <div class="feature-card">
+              <h4 class="icon-heading"><img src="assets/icons/windows.svg" alt="" class="tool-icon" aria-hidden="true" /> Windows</h4>
+              <pre><code class="language-powershell">winget install Python.Python.3.12
+winget install Git.Git
+winget install Docker.DockerDesktop
+
+python --version</code></pre>
+              <div class="platform-tools">
+                <span class="tool-chip"><img src="assets/icons/winget.svg" alt="" class="tool-icon" aria-hidden="true" /> winget</span>
+                <span class="tool-chip"><img src="assets/icons/powershell.svg" alt="" class="tool-icon" aria-hidden="true" /> PowerShell</span>
+                <span class="tool-chip"><img src="assets/icons/git.svg" alt="" class="tool-icon" aria-hidden="true" /> Git Bash</span>
+              </div>
+              <p>Instaladores: <span class="tool-inline"><img src="assets/icons/python.svg" alt="" class="tool-icon tool-icon--sm" aria-hidden="true" /><a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org</a></span>, <span class="tool-inline"><img src="assets/icons/git.svg" alt="" class="tool-icon tool-icon--sm" aria-hidden="true" /><a href="https://git-scm.com/download/win" target="_blank" rel="noopener">Git for Windows</a></span>, <span class="tool-inline"><img src="assets/icons/docker.svg" alt="" class="tool-icon tool-icon--sm" aria-hidden="true" /><a href="https://docker.com/products/docker-desktop" target="_blank" rel="noopener">Docker Desktop</a></span>.</p>
+            </div>
+            <div class="feature-card">
+              <h4 class="icon-heading"><img src="assets/icons/linux.svg" alt="" class="tool-icon" aria-hidden="true" /> Linux</h4>
+              <pre><code class="language-bash"># Debian / Ubuntu
+sudo apt-get update
+sudo apt-get install -y python3 python3-venv python3-pip git docker.io
+sudo usermod -aG docker $USER
+
+python3 --version</code></pre>
+              <div class="platform-tools">
+                <span class="tool-chip"><img src="assets/icons/python.svg" alt="" class="tool-icon" aria-hidden="true" /> apt</span>
+                <span class="tool-chip"><img src="assets/playwright-logo.svg" alt="" class="tool-icon" aria-hidden="true" /> install-deps</span>
+                <span class="tool-chip"><img src="assets/icons/docker.svg" alt="" class="tool-icon" aria-hidden="true" /> Docker</span>
+              </div>
+              <p>Após <code>pip install</code>: <code>playwright install-deps</code> (libs do browser). Fedora: <code>dnf install python3 git docker</code>.</p>
+            </div>
+          </div>
+
+          <pre><code class="language-bash"># TestFlow — mesmo comando em macOS, Windows e Linux
+docker run --rm -p 5050:5050 qaschool/testflow:latest</code></pre>
         </section>
 
         <section id="instalacao">
@@ -162,36 +262,57 @@
           <ol class="steps">
             <li>
               <div>
-                <strong>Clone o repositório</strong><br />
-                <code>git clone …/testflow-pytest && cd testflow-pytest</code>
+                <strong>Clone o repositório</strong>
+                <pre><code class="language-bash">git clone https://github.com/lflucasferreira/testflow-pytest.git
+cd testflow-pytest</code></pre>
+                <div class="install-step-tools">
+                  <span class="tool-chip"><img src="assets/icons/git.svg" alt="" class="tool-icon" aria-hidden="true" /> Git</span>
+                  <span class="tool-chip"><img src="assets/icons/github.svg" alt="" class="tool-icon" aria-hidden="true" /> GitHub</span>
+                </div>
               </div>
             </li>
             <li>
               <div>
-                <strong>Crie o venv e instale deps Python</strong><br />
-                <code>python -m venv .venv && source .venv/bin/activate</code><br />
-                <code>pip install -r requirements.txt</code>
+                <strong>Crie o venv e instale deps Python</strong>
+                <pre><code class="language-bash">python3 -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt</code></pre>
+                <div class="install-step-tools">
+                  <span class="tool-chip"><img src="assets/icons/python.svg" alt="" class="tool-icon" aria-hidden="true" /> Python</span>
+                  <span class="tool-chip"><img src="assets/pytest-mark.svg" alt="" class="tool-icon" aria-hidden="true" /> pip</span>
+                </div>
               </div>
             </li>
             <li>
               <div>
-                <strong>Instale o browser Chromium</strong><br />
-                <code>playwright install chromium</code>
+                <strong>Instale o browser Chromium</strong>
+                <pre><code class="language-bash">playwright install chromium</code></pre>
+                <div class="install-step-tools">
+                  <span class="tool-chip"><img src="assets/playwright-logo.svg" alt="" class="tool-icon" aria-hidden="true" /> Playwright</span>
+                  <span class="tool-chip"><img src="assets/icons/googlechrome.svg" alt="" class="tool-icon" aria-hidden="true" /> Chromium</span>
+                </div>
               </div>
             </li>
             <li>
               <div>
-                <strong>Execute os testes</strong><br />
-                <code>pytest</code> ou <code>pytest -m smoke -v</code>
+                <strong>Execute os testes</strong>
+                <pre><code class="language-bash">pytest
+pytest -m smoke -v</code></pre>
+                <div class="install-step-tools">
+                  <span class="tool-chip"><img src="assets/pytest-mark.svg" alt="" class="tool-icon" aria-hidden="true" /> PyTest</span>
+                </div>
               </div>
             </li>
           </ol>
           <div class="callout">
-            <strong>Proxy corporativo (Zscaler)?</strong> Se <code>playwright install</code> falhar com erro SSL:<br />
+            <strong>Proxy corporativo (Zscaler)?</strong> Se <code>playwright install</code> falhar com erro SSL, use
             <code>export NODE_TLS_REJECT_UNAUTHORIZED=0</code> antes do install, ou configure
             <code>NODE_EXTRA_CA_CERTS</code> com o root CA corporativo.<br /><br />
-            Se o browser já estiver em <code>~/Library/Caches/ms-playwright</code> (macOS):<br />
-            <code>export PLAYWRIGHT_BROWSERS_PATH="$HOME/Library/Caches/ms-playwright"</code>
+            <span class="tool-inline">
+              <img src="assets/icons/apple.svg" alt="" class="tool-icon" aria-hidden="true" />
+              Se o browser já estiver em <code>~/Library/Caches/ms-playwright</code> (macOS):
+            </span><br />
+            <pre><code class="language-bash">export PLAYWRIGHT_BROWSERS_PATH="$HOME/Library/Caches/ms-playwright"</code></pre>
           </div>
         </section>
 
@@ -446,6 +567,7 @@ def test_invalid_payload(api_request):
               <tr><td><code>jsonschema</code></td><td><code>validate_schema()</code> — contrato REST</td></tr>
               <tr><td><code>axe-playwright-python</code></td><td><code>check_a11y(page)</code> — WCAG</td></tr>
               <tr><td><code>faker</code></td><td>Dados dinâmicos em <code>support/factories/</code></td></tr>
+              <tr><td><code>allure-pytest</code></td><td>Relatório HTML Allure 3 — <code>allure-results/</code></td></tr>
               <tr><td><code>python-dotenv</code></td><td>Variáveis de ambiente</td></tr>
             </tbody>
           </table>
@@ -458,12 +580,19 @@ def test_invalid_payload(api_request):
 pytest --tracing retain-on-failure
 pytest --pdb
 pytest -x --pdb
-pytest -W ignore::DeprecationWarning</code></pre>
+pytest -W ignore::DeprecationWarning
+
+# Allure Report 3 (HTML)
+npm install
+pytest -m smoke
+npm run report:allure:open</code></pre>
             <ul>
               <li><code>-ra</code> no <code>pytest.ini</code> — short test summary</li>
+              <li><code>--alluredir=allure-results</code> — resultados para Allure 3</li>
               <li><code>--screenshot only-on-failure</code> — evidência visual</li>
-              <li>Traces em <code>test-results/</code> em falha</li>
-              <li>IDs <code>[TC-xxxx]</code> — rastreio Zephyr/Jira</li>
+              <li>Traces em <code>test-results/</code> · anexados no Allure em falha</li>
+              <li>IDs <code>[TC-xxxx]</code> — label <code>testCase</code> no Allure</li>
+              <li>CI publica artifact <code>allure-report</code> (GitHub Actions)</li>
             </ul>
           </div>
         </section>
@@ -740,12 +869,18 @@ pytest tests/dashboard/test_dashboard.py::TestKpiCards::test_renders_all_four_kp
           <h2>Como executar — opções Playwright</h2>
           <div class="feature-grid">
             <div class="feature-card">
-              <h4>👁 Headed</h4>
+              <h4 class="icon-heading">
+                <img src="assets/playwright-logo.svg" alt="" class="tool-icon" aria-hidden="true" />
+                Headed
+              </h4>
               <pre><code class="language-bash">pytest --headed
 pytest tests/auth --headed</code></pre>
             </div>
             <div class="feature-card">
-              <h4>📸 Visual baselines</h4>
+              <h4 class="icon-heading">
+                <img src="assets/playwright-logo.svg" alt="" class="tool-icon" aria-hidden="true" />
+                Visual baselines
+              </h4>
               <pre><code class="language-bash">pytest tests/visual
 pytest tests/visual --update-snapshots</code></pre>
             </div>
@@ -756,15 +891,28 @@ pytest --screenshot only-on-failure</code></pre>
         </section>
 
         <section id="ci">
-          <h2>CI — GitHub Actions</h2>
+          <h2 class="icon-heading"><img src="assets/icons/githubactions.svg" alt="" class="tool-icon tool-icon--md" aria-hidden="true" /> CI — GitHub Actions</h2>
           <ul>
-            <li>Matrix paralela: 12 suites + job <code>@smoke</code></li>
-            <li>Service container: <code>qaschool/testflow:latest</code> na porta 5050</li>
-            <li>Artefatos: traces Playwright em <code>test-results/</code> em falha</li>
-            <li>Cache venv no job <code>setup</code></li>
+            <li>Matrix: <code>api</code>, <code>smoke</code>, <code>smoke-firefox</code>, <code>smoke-webkit</code>, suites por pasta + <code>a11y</code> + <code>visual</code></li>
+            <li>Job <code>@smoke</code> via <code>npm run test:grep:smoke</code></li>
+            <li>
+              <span class="tool-inline">
+                <img src="assets/icons/docker.svg" alt="" class="tool-icon" aria-hidden="true" />
+                Service container: <code>qaschool/testflow:latest</code> na porta 5050
+              </span>
+            </li>
+            <li>
+              <span class="tool-inline">
+                <img src="assets/icons/allure.svg" alt="" class="tool-icon" aria-hidden="true" />
+                Allure 3 publicado em GitHub Pages (<code>/report/</code>) na <code>main</code>
+              </span>
+            </li>
+            <li>Artefatos: <code>test-results/</code> em falha · cache venv + <code>node_modules</code> no <code>setup</code></li>
           </ul>
-          <pre><code class="language-bash">pytest tests/${{ matrix.suite }} --tracing retain-on-failure
-pytest -m smoke</code></pre>
+          <pre><code class="language-bash">npm run test:${{ matrix.suite }}
+npm run test:grep:smoke
+npm run report:allure
+npm run pages:build</code></pre>
           <p>Workflow: <code>.github/workflows/pytest.yml</code></p>
         </section>
 
@@ -789,19 +937,31 @@ pytest -m smoke</code></pre>
           <h2>Próximos passos</h2>
           <div class="feature-grid">
             <a class="feature-card" href="index.html" style="text-decoration:none;color:inherit;">
-              <h4>📽️ Slides interativos</h4>
+              <h4 class="icon-heading">
+                <img src="assets/pytest-mark.svg" alt="" class="tool-icon" aria-hidden="true" />
+                Slides interativos
+              </h4>
               <p>Apresentação Reveal.js com animações e navegação por teclado.</p>
             </a>
             <a class="feature-card" href="../pt/README.md" style="text-decoration:none;color:inherit;">
-              <h4>📖 Docs de treinamento</h4>
+              <h4 class="icon-heading">
+                <img src="assets/icons/markdown.svg" alt="" class="tool-icon" aria-hidden="true" />
+                Docs de treinamento
+              </h4>
               <p>Walkthrough bloco a bloco de cada spec do TestFlow PyTest.</p>
             </a>
             <a class="feature-card" href="https://docs.pytest.org" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">
-              <h4>📚 Documentação PyTest</h4>
+              <h4 class="icon-heading">
+                <img src="assets/pytest-mark.svg" alt="" class="tool-icon" aria-hidden="true" />
+                Documentação PyTest
+              </h4>
               <p>docs.pytest.org — referência completa da API.</p>
             </a>
             <a class="feature-card" href="https://playwright.dev/python/docs/intro" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">
-              <h4>🎭 Playwright Python</h4>
+              <h4 class="icon-heading">
+                <img src="assets/playwright-logo.svg" alt="" class="tool-icon" aria-hidden="true" />
+                Playwright Python
+              </h4>
               <p>playwright.dev/python — E2E e API no browser.</p>
             </a>
           </div>
@@ -836,5 +996,7 @@ pytest -m smoke</code></pre>
       )
       sections.forEach((s) => observer.observe(s))
     </script>
+    <script src="../js/theme-toggle.js"></script>
+    <script src="../js/media-lightbox.js"></script>
   </body>
 </html>

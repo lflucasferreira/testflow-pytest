@@ -97,6 +97,28 @@ pytest --headed
 pytest -n auto
 ```
 
+## Allure Report 3
+
+Tests write raw results to `allure-results/` (configured in `pytest.ini`). Generate the HTML report with Allure 3:
+
+```bash
+pip install -r requirements.txt
+npm install
+
+# Run tests (same as always)
+pytest -m smoke
+
+# Generate and open the Awesome report
+npm run report:allure:open
+
+# Or run tests + report in one step
+npm run test:allure -- -m smoke -v
+```
+
+Configuration: `allurerc.mjs` (report name, history, Awesome plugin).
+
+On CI, each matrix job uploads `allure-results`; a final job merges them and publishes `allure-report` as a workflow artifact.
+
 ## Project structure
 
 ```
@@ -117,6 +139,18 @@ testflow-pytest/
 ## CI
 
 GitHub Actions workflow runs each suite in parallel against the `qaschool/testflow:latest` Docker service.
+
+Matrix mirrors `testflow-playwright`: per-suite jobs, multi-browser smoke (`chromium` / `firefox` / `webkit`), `@smoke` marker job, Allure results merged on push to `main`, and GitHub Pages deploy (`/report/`).
+
+```bash
+# Same suites as CI (venv active)
+npm run test:smoke
+npm run test:smoke-firefox
+npm run test:a11y
+npm run test:grep:smoke
+```
+
+Published site: `https://lflucasferreira.github.io/testflow-pytest/` (landing + slides + Allure report).
 
 ## Slides & training docs
 

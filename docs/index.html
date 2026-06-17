@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>testflow-pytest — PyTest Automation Suite</title>
+    <meta name="description" content="PyTest + Playwright E2E and API automation for TestFlow. Guides, slides, walkthroughs, and CI setup." />
+    <link rel="icon" href="slides/assets/pytest-mark.svg" type="image/svg+xml" />
+    <script>
+      (function () {
+        var path = location.pathname
+        var last = path.split('/').filter(Boolean).pop() || ''
+        if (/\.html?$/i.test(last)) return
+
+        var base
+        var slidesIdx = path.indexOf('/slides')
+        if (slidesIdx !== -1) {
+          base = path.substring(0, slidesIdx + '/slides'.length) + '/'
+        } else {
+          base = path.replace(/\/index$/i, '')
+          if (!base.endsWith('/')) base += '/'
+        }
+
+        var b = document.createElement('base')
+        b.href = base
+        document.head.appendChild(b)
+      })()
+    </script>
+    <script>
+      (function () {
+        var k = 'pt-docs-theme'
+        var t = localStorage.getItem(k)
+        if (t !== 'light' && t !== 'dark') {
+          t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+        }
+        document.documentElement.setAttribute('data-theme', t)
+      })()
+    </script>
+    <link rel="stylesheet" href="slides/css/themes.css" />
+    <link rel="stylesheet" href="slides/css/theme-toggle.css" />
+    <link rel="stylesheet" href="slides/css/landing.css" />
+    <link rel="stylesheet" href="slides/css/media-lightbox.css" />
+  </head>
+  <body>
+    <header>
+      <a class="brand" href=".">
+        <img src="slides/assets/pytest-mark.svg" alt="pytest" />
+        testflow-pytest
+      </a>
+      <nav>
+        <a class="nav-github" href="https://github.com/lflucasferreira/testflow-pytest" target="_blank" rel="noopener">
+          <img src="slides/assets/icons/github.svg" alt="" width="18" height="18" aria-hidden="true" />
+          GitHub
+        </a>
+        <button type="button" class="theme-toggle" aria-label="Toggle theme">
+          <span class="theme-toggle-icon theme-toggle-icon--dark" aria-hidden="true">☀</span>
+          <span class="theme-toggle-icon theme-toggle-icon--light" aria-hidden="true">☾</span>
+        </button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <img class="hero-logo" src="slides/assets/pytest-mark.svg" alt="pytest" />
+        <h1>PyTest <span>Automation Suite</span></h1>
+        <p>E2E + API test suite for TestFlow — smoke, auth, dashboard, API, a11y, visual regression. Multi-browser CI with GitHub Actions and Allure Report 3.</p>
+        <div class="badges">
+          <a href="https://github.com/lflucasferreira/testflow-pytest/actions/workflows/pytest.yml" target="_blank" rel="noopener">
+            <img src="https://github.com/lflucasferreira/testflow-pytest/actions/workflows/pytest.yml/badge.svg" alt="PyTest CI &amp; Pages" />
+          </a>
+        </div>
+      </section>
+
+      <div class="cards cards--inline" aria-label="Documentation">
+        <a class="card" href="slides/guia-completo.html">
+          <img class="card-icon" src="slides/assets/pytest-mark.svg" alt="" aria-hidden="true" />
+          <h2>Complete Guide</h2>
+          <p>Setup, project structure, all PyTest + Playwright commands and patterns.</p>
+          <span class="card-arrow">↗ guia-completo.html</span>
+        </a>
+
+        <a class="card" href="slides/index.html">
+          <img class="card-icon" src="slides/assets/icons/revealjs.svg" alt="" aria-hidden="true" />
+          <h2>Slides</h2>
+          <p>Interactive Reveal.js presentation — PyTest fundamentals, E2E, API, POM, CI/CD.</p>
+          <span class="card-arrow">↗ slides/index.html</span>
+        </a>
+
+        <a class="card" href="https://lflucasferreira.github.io/testflow-pytest/report/index.html" target="_blank" rel="noopener">
+          <img class="card-icon" src="slides/assets/icons/allure.svg" alt="" aria-hidden="true" />
+          <h2>Report</h2>
+          <p>Full-suite E2E + API Allure report from CI — updated on every push to main.</p>
+          <span class="card-arrow">↗ GitHub Pages · report</span>
+        </a>
+      </div>
+    </main>
+
+    <footer>
+      <p>
+        <a href="https://github.com/lflucasferreira/testflow-pytest" target="_blank" rel="noopener">lflucasferreira/testflow-pytest</a>
+        &nbsp;·&nbsp;
+        Target app: <a href="https://github.com/qaschoolbr/testflow" target="_blank" rel="noopener">qaschool/testflow</a>
+      </p>
+    </footer>
+
+    <script src="slides/js/theme.js" data-base="../"></script>
+    <script src="js/media-lightbox.js"></script>
+  </body>
+</html>

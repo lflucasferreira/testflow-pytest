@@ -13,6 +13,8 @@ Apresentação Reveal.js sobre PyTest + Playwright (E2E, API, POM, markers e com
 | `css/guide.css` | Tema visual PyTest (guia HTML) |
 | `assets/pytest-logo.svg` | Logo oficial (flauta + wordmark) — [pytest-dev/design](https://github.com/pytest-dev/design) |
 | `assets/pytest-mark.svg` | Ícone sem texto (favicon) |
+| `assets/icons/` | Logos de SO e ferramentas (macOS, Windows, Linux, Python, Playwright, Docker, GitHub…) |
+| `css/brand-icons.css` | Estilos compartilhados para logos e abas por SO |
 
 ## Pré-requisito (slides)
 

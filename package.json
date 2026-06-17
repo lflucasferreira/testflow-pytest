@@ -6,9 +6,32 @@
   "scripts": {
     "slides": "npx serve . -p 3336",
     "slides:open": "npx serve . -p 3336 & sleep 1 && open http://localhost:3336/docs/slides/",
-    "slides:pdf": "node scripts/export-slides-pdf.mjs"
+    "slides:pdf": "node scripts/export-slides-pdf.mjs",
+    "test": "pytest",
+    "test:api": "pytest tests/api",
+    "test:smoke": "pytest tests/smoke",
+    "test:smoke-firefox": "pytest tests/smoke --browser firefox",
+    "test:smoke-webkit": "pytest tests/smoke --browser webkit",
+    "test:auth": "pytest tests/auth",
+    "test:dashboard": "pytest tests/dashboard",
+    "test:team": "pytest tests/team",
+    "test:settings": "pytest tests/settings",
+    "test:components": "pytest tests/components",
+    "test:wizard": "pytest tests/wizard",
+    "test:activity": "pytest tests/activity",
+    "test:advanced": "pytest tests/advanced",
+    "test:states": "pytest tests/states",
+    "test:a11y": "pytest -m a11y",
+    "test:visual": "pytest tests/visual",
+    "test:grep:smoke": "pytest -m smoke",
+    "test:allure": "allure run -- pytest",
+    "report:allure": "node scripts/generate-allure-report.mjs",
+    "report:allure:open": "npx allure open allure-report",
+    "report:allure:serve": "npm run report:allure && npm run report:allure:open",
+    "pages:build": "node scripts/build-pages-site.mjs"
   },
   "devDependencies": {
+    "allure": "^3.0.0",
     "decktape": "^3.16.1",
     "highlight.js": "^11.11.1",
     "reveal.js": "^5.1.0"

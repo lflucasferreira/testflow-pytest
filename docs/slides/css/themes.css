@@ -1,0 +1,71 @@
+/**
+ * PyTest docs — light & dark semantic tokens
+ * Set via data-theme on <html> (theme.js)
+ */
+
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+  --pt-blue: #009fe3;
+  --pt-blue-dark: #0077b3;
+  --pt-blue-glow: rgba(0, 159, 227, 0.35);
+  --pt-bg: #0c1929;
+  --pt-surface: #111820;
+  --pt-surface-2: #1a2332;
+  --pt-border: #2a3544;
+  --pt-text: #e8edf2;
+  --pt-muted: #8b9cb0;
+  --pt-code-bg: #0d1117;
+  --pt-code-text: #c9d1d9;
+  --pt-header-bg: rgba(8, 10, 11, 0.92);
+  --pt-gradient-a: rgba(0, 159, 227, 0.12);
+  --pt-gradient-b: rgba(0, 119, 179, 0.06);
+  --pt-shadow: rgba(0, 0, 0, 0.35);
+  --pt-h1-gradient-start: #ffffff;
+  --pt-step-counter-text: #0c1929;
+  --pt-table-hover: rgba(0, 159, 227, 0.06);
+  --pt-callout-bg: rgba(0, 159, 227, 0.08);
+  --pt-yellow: #ffd43b;
+  --pt-yellow-glow: rgba(255, 212, 59, 0.2);
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+  --pt-blue: #0077b3;
+  --pt-blue-dark: #009fe3;
+  --pt-blue-glow: rgba(0, 119, 179, 0.22);
+  --pt-bg: #ffffff;
+  --pt-surface: #f4f8fb;
+  --pt-surface-2: #e8eef4;
+  --pt-border: #c5d4e0;
+  --pt-text: #1a2332;
+  --pt-muted: #5a6b7d;
+  --pt-code-bg: #f4f8fb;
+  --pt-code-text: #1a2332;
+  --pt-header-bg: rgba(255, 255, 255, 0.92);
+  --pt-gradient-a: rgba(0, 159, 227, 0.1);
+  --pt-gradient-b: rgba(0, 119, 179, 0.05);
+  --pt-shadow: rgba(26, 35, 50, 0.12);
+  --pt-h1-gradient-start: #1a2332;
+  --pt-step-counter-text: #ffffff;
+  --pt-table-hover: rgba(0, 159, 227, 0.08);
+  --pt-callout-bg: rgba(0, 159, 227, 0.1);
+  --pt-yellow: #c99700;
+  --pt-yellow-glow: rgba(201, 151, 0, 0.15);
+}
+
+[data-theme='light'] img.tool-icon[src*='apple.svg'],
+[data-theme='light'] img.tool-icon[src*='github.svg'],
+[data-theme='light'] img.tool-icon[src*='microsoft.svg'],
+[data-theme='light'] img.brand-icon[src*='apple.svg'],
+[data-theme='light'] img.brand-icon[src*='github.svg'],
+[data-theme='light'] .tool-inline img[src*='apple.svg'],
+[data-theme='light'] .card-icon[src*='github.svg'] {
+  filter: brightness(0);
+}
+
+[data-theme='dark'] img.tool-icon[src*='github.svg'],
+[data-theme='dark'] img.tool-icon[src*='githubactions.svg'],
+[data-theme='dark'] .card-icon[src*='github.svg'] {
+  filter: brightness(0) invert(1);
+}

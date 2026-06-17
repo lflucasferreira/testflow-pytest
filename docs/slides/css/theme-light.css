@@ -1,0 +1,51 @@
+/**
+ * Light theme overrides — guia-completo
+ * Code blocks keep dark palette from guide.css :root tokens.
+ */
+
+[data-theme='light'] {
+  --pt-blue: #0077b3;
+  --pt-blue-dark: #009fe3;
+  --pt-blue-glow: rgba(0, 119, 179, 0.22);
+  --pt-bg: #ffffff;
+  --pt-surface: #f4f8fb;
+  --pt-surface-2: #e8eef4;
+  --pt-border: #c5d4e0;
+  --pt-text: #1a2332;
+  --pt-muted: #5a6b7d;
+  --pt-header-bg: rgba(255, 255, 255, 0.92);
+  --pt-callout-bg: rgba(0, 159, 227, 0.1);
+  --pt-step-counter-text: #ffffff;
+  --pt-h1-gradient-start: #1a2332;
+  --pt-shadow: rgba(26, 35, 50, 0.12);
+}
+
+[data-theme='light'] body {
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 159, 227, 0.1), transparent),
+    radial-gradient(circle at 100% 100%, rgba(0, 119, 179, 0.05), transparent 40%);
+}
+
+[data-theme='light'] .hero h1,
+[data-theme='light'] .hero-logo .wordmark {
+  background: linear-gradient(135deg, #1a2332 0%, var(--pt-blue) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+[data-theme='light'] pre,
+[data-theme='light'] .terminal {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+}
+
+[data-theme='light'] .callout {
+  color: var(--pt-muted);
+}
+
+[data-theme='light'] img.tool-icon[src*='apple.svg'],
+[data-theme='light'] img.brand-icon[src*='apple.svg'],
+[data-theme='light'] .tool-inline img[src*='apple.svg'],
+[data-theme='light'] img.tool-icon[src*='github.svg'],
+[data-theme='light'] img.tool-icon[src*='githubactions.svg'] {
+  filter: brightness(0);
+}
