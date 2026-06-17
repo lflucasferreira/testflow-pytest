@@ -152,11 +152,12 @@ def pytest_runtest_makereport(item: pytest.Item, call: pytest.CallInfo) -> None:
 def pytest_runtest_setup(item: pytest.Item) -> None:
     browser = _resolve_browser_name(item)
     allure.dynamic.label("browser", browser)
+    allure.dynamic.parameter("browser", browser)
 
     suite = _suite_from_path(item.nodeid)
     if suite:
         allure.dynamic.parent_suite("testflow-pytest")
-        allure.dynamic.suite(suite)
+        allure.dynamic.suite(f"{suite} [{browser}]")
 
     for marker in item.iter_markers():
         if marker.name in {"parametrize", "usefixtures"}:
@@ -165,7 +166,6 @@ def pytest_runtest_setup(item: pytest.Item) -> None:
 
     tc_id = _extract_tc_id(item)
     if tc_id:
-        allure.dynamic.testcase(tc_id)
         allure.dynamic.label("testCase", tc_id)
 
 

@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -5,52 +6,36 @@ import { fileURLToPath } from 'node:url'
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const resultsDir = path.join(root, process.env.ALLURE_RESULTS_DIR ?? 'allure-results')
 const stagingDir = path.join(root, process.env.ALLURE_STAGING_DIR ?? 'allure-results-staging')
+const projectName = process.env.ALLURE_PROJECT_NAME ?? 'testflow-pytest'
 
-function listResultFiles(dir) {
+const SKIP_FILES = new Set(['environment.properties', 'executor.json'])
+
+function walkFiles(dir) {
   if (!fs.existsSync(dir)) return []
-  return fs
-    .readdirSync(dir)
-    .filter((name) => name.endsWith('-result.json'))
-    .map((name) => path.join(dir, name))
-}
 
-function copyDirFiles(sourceDir, targetDir, browserHint) {
-  if (!fs.existsSync(sourceDir)) return 0
-
-  fs.mkdirSync(targetDir, { recursive: true })
-  let copied = 0
-
-  for (const entry of fs.readdirSync(sourceDir, { withFileTypes: true })) {
-    if (!entry.isFile()) continue
-    if (entry.name === 'environment.properties' || entry.name === 'executor.json') continue
-
-    const sourcePath = path.join(sourceDir, entry.name)
-    const targetPath = path.join(targetDir, entry.name)
-
-    if (entry.name.endsWith('-result.json')) {
-      const result = JSON.parse(fs.readFileSync(sourcePath, 'utf8'))
-      ensureBrowserLabel(result, browserHint)
-      fs.writeFileSync(targetPath, `${JSON.stringify(result)}\n`)
-    } else {
-      fs.copyFileSync(sourcePath, targetPath)
+  const files = []
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const fullPath = path.join(dir, entry.name)
+    if (entry.isDirectory()) {
+      files.push(...walkFiles(fullPath))
+    } else if (entry.isFile()) {
+      files.push(fullPath)
     }
-
-    copied += 1
   }
-
-  return copied
+  return files
 }
 
-function ensureBrowserLabel(result, browserHint) {
-  const labels = Array.isArray(result.labels) ? result.labels : []
-  const hasBrowserLabel = labels.some((label) => label.name === 'browser')
-  if (hasBrowserLabel) return
+function resolveArtifactRoot(dir) {
+  const nested = path.join(dir, 'allure-results')
+  if (fs.existsSync(nested) && fs.statSync(nested).isDirectory()) {
+    return nested
+  }
+  return dir
+}
 
-  const fromParameter = result.parameters?.find((param) => param.name === 'browser_name')?.value
-  const browser = browserHint ?? normalizeValue(fromParameter) ?? 'unknown'
-
-  labels.push({ name: 'browser', value: browser })
-  result.labels = labels
+function browserFromStagingDir(dirName) {
+  const match = dirName.match(/^allure-results-(.+)$/)
+  return match?.[1] ?? dirName
 }
 
 function normalizeValue(value) {
@@ -58,17 +43,99 @@ function normalizeValue(value) {
   return value.replace(/^'+|'+$/g, '')
 }
 
+function ensureBrowserParameter(result, browser) {
+  if (!Array.isArray(result.parameters)) {
+    result.parameters = []
+  }
+
+  const existing = result.parameters.find((param) => param.name === 'browser')
+  if (existing) {
+    existing.value = `'${browser}'`
+    return
+  }
+
+  result.parameters.push({ name: 'browser', value: `'${browser}'` })
+}
+
+function ensureBrowserLabel(result, browser) {
+  const labels = Array.isArray(result.labels) ? result.labels : []
+  const existing = labels.find((label) => label.name === 'browser')
+  if (existing) {
+    existing.value = browser
+  } else {
+    labels.push({ name: 'browser', value: browser })
+  }
+  result.labels = labels
+}
+
+function scopeResultToBrowser(result, browser) {
+  ensureBrowserLabel(result, browser)
+  ensureBrowserParameter(result, browser)
+
+  const identity = [
+    result.historyId ?? '',
+    result.testCaseId ?? '',
+    result.fullName ?? '',
+    result.name ?? '',
+    browser,
+  ].join('::')
+
+  result.historyId = createHash('md5').update(identity).digest('hex')
+  result.testCaseId = createHash('md5').update(`${result.testCaseId ?? result.uuid ?? identity}::${browser}`).digest('hex')
+
+  if (result.name && !result.name.includes(`[${browser}]`)) {
+    result.name = `${result.name} [${browser}]`
+  }
+}
+
 function browserFromResult(result) {
   const label = result.labels?.find((entry) => entry.name === 'browser')?.value
   if (label) return label
 
-  const parameter = result.parameters?.find((entry) => entry.name === 'browser_name')?.value
+  const parameter = result.parameters?.find((entry) => entry.name === 'browser')?.value
   return normalizeValue(parameter) ?? 'unknown'
 }
 
-function browserFromStagingDir(dirName) {
-  const match = dirName.match(/^allure-results-(.+)$/)
-  return match?.[1] ?? dirName
+function uniqueTargetPath(targetPath) {
+  if (!fs.existsSync(targetPath)) return targetPath
+
+  const dir = path.dirname(targetPath)
+  const ext = path.extname(targetPath)
+  const base = path.basename(targetPath, ext)
+  let index = 1
+
+  while (fs.existsSync(path.join(dir, `${base}-${index}${ext}`))) {
+    index += 1
+  }
+
+  return path.join(dir, `${base}-${index}${ext}`)
+}
+
+function copyArtifactTree(sourceDir, targetDir, browser) {
+  const artifactRoot = resolveArtifactRoot(sourceDir)
+  if (!fs.existsSync(artifactRoot)) return 0
+
+  let copied = 0
+  for (const filePath of walkFiles(artifactRoot)) {
+    const rel = path.relative(artifactRoot, filePath)
+    const fileName = path.basename(filePath)
+    if (SKIP_FILES.has(fileName)) continue
+
+    const targetPath = uniqueTargetPath(path.join(targetDir, rel))
+    fs.mkdirSync(path.dirname(targetPath), { recursive: true })
+
+    if (fileName.endsWith('-result.json')) {
+      const result = JSON.parse(fs.readFileSync(filePath, 'utf8'))
+      scopeResultToBrowser(result, browser)
+      fs.writeFileSync(targetPath, `${JSON.stringify(result)}\n`)
+    } else {
+      fs.copyFileSync(filePath, targetPath)
+    }
+
+    copied += 1
+  }
+
+  return copied
 }
 
 function mergeFromStaging() {
@@ -88,7 +155,9 @@ function mergeFromStaging() {
   let copied = 0
   for (const dirName of browserDirs) {
     const browser = browserFromStagingDir(dirName)
-    copied += copyDirFiles(path.join(stagingDir, dirName), resultsDir, browser)
+    const count = copyArtifactTree(path.join(stagingDir, dirName), resultsDir, browser)
+    console.log(`  ${dirName}: ${count} file(s) tagged as ${browser}`)
+    copied += count
   }
 
   console.log(`Merged ${copied} file(s) from ${browserDirs.length} browser artifact(s)`)
@@ -96,7 +165,7 @@ function mergeFromStaging() {
 }
 
 function summarizeResults() {
-  const resultFiles = listResultFiles(resultsDir)
+  const resultFiles = walkFiles(resultsDir).filter((filePath) => filePath.endsWith('-result.json'))
   const browsers = new Map()
 
   for (const filePath of resultFiles) {
@@ -110,7 +179,7 @@ function summarizeResults() {
 
 function writeEnvironment({ total, browsers }) {
   const lines = [
-    'Project=testflow-pytest',
+    `Project=${projectName}`,
     `Total.tests=${total}`,
     `Browsers=${[...browsers.keys()].sort().join(', ')}`,
   ]
@@ -138,7 +207,7 @@ function main() {
   const summary = summarizeResults()
   if (summary.total === 0) {
     console.log('No Allure result files found after merge')
-    process.exit(0)
+    process.exit(1)
   }
 
   writeEnvironment(summary)
@@ -147,6 +216,12 @@ function main() {
   )
   for (const [browser, count] of [...summary.browsers.entries()].sort(([a], [b]) => a.localeCompare(b))) {
     console.log(`  - ${browser}: ${count}`)
+  }
+
+  if (summary.browsers.size < 2 && process.env.CI === 'true') {
+    console.warn(
+      'Warning: expected multiple browsers in merged Allure results; check artifact downloads.',
+    )
   }
 }
 

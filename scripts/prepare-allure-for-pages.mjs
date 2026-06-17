@@ -7,6 +7,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const stagingDir = path.join(root, process.env.ALLURE_PAGES_DIR ?? 'pages-allure-staging')
 const allureReport = path.join(root, 'allure-report')
 const allureResults = path.join(root, 'allure-results')
+const isCi = process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true'
 
 function stageReport(sourceDir) {
   fs.rmSync(stagingDir, { recursive: true, force: true })
@@ -14,7 +15,7 @@ function stageReport(sourceDir) {
   console.log(`Staged for Pages at ${path.relative(root, stagingDir)}/index.html`)
 }
 
-if (fs.existsSync(path.join(allureReport, 'index.html'))) {
+if (!isCi && fs.existsSync(path.join(allureReport, 'index.html'))) {
   console.log('Using existing allure-report/index.html')
   stageReport(allureReport)
   process.exit(0)

@@ -141,6 +141,8 @@ jobs:
   publish-allure:
     name: Publish Allure report to GitHub Pages
     runs-on: ubuntu-latest
+    env:
+      CI: "true"
     needs:
       - test
       - publish-pages
@@ -166,18 +168,35 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Download Allure results
+      - name: Download Allure results (chromium)
         if: always()
         uses: actions/download-artifact@v7
         with:
-          pattern: allure-results-*
-          path: allure-results-staging
+          name: allure-results-chromium
+          path: allure-results-staging/allure-results-chromium
+        continue-on-error: true
+
+      - name: Download Allure results (firefox)
+        if: always()
+        uses: actions/download-artifact@v7
+        with:
+          name: allure-results-firefox
+          path: allure-results-staging/allure-results-firefox
+        continue-on-error: true
+
+      - name: Download Allure results (webkit)
+        if: always()
+        uses: actions/download-artifact@v7
+        with:
+          name: allure-results-webkit
+          path: allure-results-staging/allure-results-webkit
         continue-on-error: true
 
       - name: Merge Allure results by browser
         if: always()
+        env:
+          CI: "true"
         run: npm run allure:merge-results
-        continue-on-error: true
 
       - name: Prepare Allure report for Pages
         if: always()
